@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.AbstractMap;
 
 
 /** Binary Search Tree Map implementation with inner Node class.
@@ -17,24 +18,19 @@ public class BSTMap<K extends Comparable<? super K>, V>
     /** Inner node class.  Do not make this static because you want
         the K to be the same K as in the BSTMap header.
     */
-    private class BNode {
+    private class BNode<K, V> extends AbstractMap.SimpleEntry<K, V> {
 
-        /** The key of the entry (null if sentinel node). */
-        private K key;
-        /** The value of the entry (null if sentinel node). */
-        private V value;
         /** The left child of this node. */
-        private BNode left;
+        private BNode<K, V> left;
         /** The right child of this node. */
-        private BNode right;
+        private BNode<K, V> right;
 
         /** Create a new node with a particular key and value.
          *  @param k the key for the new node
          *  @param v the value for the new node
          */
         BNode(K k, V v) {
-            this.key = k;
-            this.value = v;
+            super(k, v);
             this.left = null;
             this.right = null;
         }
@@ -43,12 +39,12 @@ public class BSTMap<K extends Comparable<? super K>, V>
          *  @return true if leaf, false otherwise
          */
         public boolean isLeaf() {
-            return this.key == null;  // this is a sentinel-based implementation
+            return this.getKey() == null;  // this is a sentinel-based implementation
         }
     }
 
     /** The root of this tree. */
-    private BNode root;
+    private BNode<K, V> root;
     /** The number of entries in this map (== non-sentinel nodes). */
     private int size;
 
@@ -56,7 +52,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
      */
     public BSTMap() {
         // empty tree is a sentinel for the root
-        this.root = new BNode(null, null);
+        this.root = new BNode<K, V>(null, null);
         this.size = 0;
     }
 
@@ -87,8 +83,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
         return false;
     }
     
-    @Override()
-    public BNode hasValue(K val, BNode curr) {
+    public BNode<K, V> hasValue(K val, BNode<K, V> curr) {
     // Fill in
         return null;
     }
@@ -103,7 +98,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *  @param curr the root of the subtree from which to get the entry
      *  @return the value associated with the key, or null if not found
      */
-    public V get(K key, BNode curr) {
+    public V get(K key, BNode<K, V> curr) {
     // Fill in
         return null;
     }
@@ -119,7 +114,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *  @param curr the root of the subtree into which to put the entry
      *  @return the original value associated with the key, or null if not found
      */
-    private V put(K key, V val, BNode curr) {
+    private V put(K key, V val, BNode<K, V> curr) {
     // Fill in
         return null;
     }
@@ -134,7 +129,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *  @param curr the root of the subtree from which to remove the entry
      *  @return the value associated with the removed key, or null if not found
      */
-    public V remove(K key, BNode curr) {
+    public V remove(K key, BNode<K, V> curr) {
     // Fill in
         return null;
     }
@@ -163,7 +158,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *  @param curr the root of the subtree to search
      *  @return the min key
      */
-    public K firstKey(BNode curr) {
+    public K firstKey(BNode<K, V> curr) {
     // Fill in
         return null;
     }
@@ -172,7 +167,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *  @param curr the root of the subtree to search
      *  @return the max key
      */
-    public K lastKey(BNode curr) {
+    public K lastKey(BNode<K, V> curr) {
     // Fill in
         return null;
     }
@@ -188,7 +183,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *  @param curr the root of the subtree to iterate over
      *  @return an iterable list of entries ordered by keys
      */
-    private Collection<Map.Entry<K, V>> inOrder(BNode curr) {
+    private Collection<Map.Entry<K, V>> inOrder(BNode<K, V> curr) {
         LinkedList<Map.Entry<K, V>> ordered = new LinkedList<Map.Entry<K, V>>();
 
     // Fill in
