@@ -18,8 +18,12 @@ public class BSTMap<K extends Comparable<? super K>, V>
     /** Inner node class.  Do not make this static because you want
         the K to be the same K as in the BSTMap header.
     */
-    private class BNode<K, V> extends AbstractMap.SimpleEntry<K, V> {
+    private class BNode<K, V> implements Map.Entry<K, V> {
 
+        /** The key of the entry (null if sentinel node). */
+        private K key;
+        /** The value of the entry (null if sentinel node). */
+        private V value;
         /** The left child of this node. */
         private BNode<K, V> left;
         /** The right child of this node. */
@@ -30,9 +34,14 @@ public class BSTMap<K extends Comparable<? super K>, V>
          *  @param v the value for the new node
          */
         BNode(K k, V v) {
-            super(k, v);
+            this.key = k;
+            this.value = v;
             this.left = null;
             this.right = null;
+        }
+
+        BNode() {
+            this(null, null);
         }
 
         /** Check whether this node is a leaf sentinel, based on key.
@@ -41,6 +50,51 @@ public class BSTMap<K extends Comparable<? super K>, V>
         public boolean isLeaf() {
             return this.getKey() == null;  // this is a sentinel-based implementation
         }
+
+        /**
+         * Replaces the value corresponding to this entry with the specified
+         * value.
+         *
+         * @param key new value to be stored in this entry
+         * @return the old value corresponding to the entry
+         */
+        public K setKey(K key) {
+            K oldKey = this.key;
+            this.key = key;
+            return oldKey;
+        }
+
+        /**
+         * Returns the key corresponding to this entry.
+         *
+         * @return the key corresponding to this entry
+         */
+        public K getKey() {
+            return key;
+        }
+
+        /**
+         * Returns the value corresponding to this entry.
+         *
+         * @return the value corresponding to this entry
+         */
+        public V getValue() {
+            return value;
+        }
+
+        /**
+         * Replaces the value corresponding to this entry with the specified
+         * value.
+         *
+         * @param value new value to be stored in this entry
+         * @return the old value corresponding to the entry
+         */
+        public V setValue(V value) {
+            V oldValue = this.value;
+            this.value = value;
+            return oldValue;
+        }
+
     }
 
     /** The root of this tree. */
@@ -52,7 +106,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
      */
     public BSTMap() {
         // empty tree is a sentinel for the root
-        this.root = new BNode<K, V>(null, null);
+        this.root = new BNode<K, V>();
         this.size = 0;
     }
 
@@ -63,7 +117,8 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
     @Override()
     public void clear() {
-    // Fill in 
+        this.root = null;
+        this.size = 0;
     }
 
     @Override()
@@ -79,33 +134,43 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
     @Override()
     public boolean hasValue(V value) {
-    // Fill in
-        return false;
+        return hasValue(value, this.root).getValue() != null;
     }
     
-    public BNode<K, V> hasValue(K val, BNode<K, V> curr) {
-    // Fill in
-        return null;
-    }
+    public BNode<K, V> hasValue(V value, BNode<K, V> curr) {
+        if (curr.isLeaf()) {
+            return new BNode<K, V>();
+        }
+        V tempV = curr.getValue();
+        if (tempV != null && tempV.equals(value)) {
+            return curr;
+        }
 
-    @Override()
-    public V get(K key) {
-        return this.get(key, this.root);
+        BNode<K, V> l = hasValue(value, curr.left);
+
+
+        tempV = l.getValue();
+        if (tempV != null && tempV.equals(value)) {
+            return l;
+        }
+
+        BNode<K, V> r = hasValue(value, curr.right);
+        return r;
     }
 
     /** Get the value associated with key from subtree with given root node.
      *  @param key the key of the entry
-     *  @param curr the root of the subtree from which to get the entry
      *  @return the value associated with the key, or null if not found
      */
-    public V get(K key, BNode<K, V> curr) {
-    // Fill in
-        return null;
-    }
-
     @Override()
-    public V put(K key, V val) {
-        return this.put(key, val, this.root);
+    public V get(K key) {
+        BNode<K, V> node = this.traverseByKey(key);
+        if (node.isLeaf()) {
+            return null;
+        } else {
+            return node.getValue();
+        }
+        
     }
 
     /** Put <key,value> entry into subtree with given root node.
@@ -114,14 +179,22 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *  @param curr the root of the subtree into which to put the entry
      *  @return the original value associated with the key, or null if not found
      */
-    private V put(K key, V val, BNode<K, V> curr) {
-    // Fill in
-        return null;
-    }
-
     @Override()
-    public V remove(K key) {
-        return this.remove(key, this.root);
+    public V put(K key, V val) {
+        BNode<K, V> node = this.traverseByKey(key);
+        if (node.isLeaf()) {
+
+            node.setKey(key);
+            node.setValue(val);
+
+            node.left = new BNode<K, V>();
+            node.right = new BNode<K, V>();
+
+
+            return null;
+        } else {
+            return node.setValue(val);
+        }
     }
 
     /** Remove entry with specified key from subtree with given root node.
@@ -129,10 +202,47 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *  @param curr the root of the subtree from which to remove the entry
      *  @return the value associated with the removed key, or null if not found
      */
-    public V remove(K key, BNode<K, V> curr) {
-    // Fill in
-        return null;
+    @Override()
+    public V remove(K key) {
+
+        BNode<K, V> deleteMe = this.traverseByKey(key);
+        if (deleteMe.isLeaf()) { // if key not in BSTMap, return null
+            return null;
+        }
+
+        boolean leftLeaf = deleteMe.left.isLeaf();
+        boolean rightLeaf = deleteMe.right.isLeaf();
+
+        V deleteMeVal = deleteMe.getValue();
+
+
+        // if both children are leaves, cut off that node and make it a leaf.
+        if (leftLeaf && rightLeaf) {
+            this.leafMeAlone(deleteMe);
+        } else {
+            // we'll have to traverse to find the next smallest/largest value
+            // to replace the removed key's node.
+            BNode<K, V> switchy;
+            if (!leftLeaf) { //if the left subtree has stuffz in it
+                switchy = deleteMe.left; // go one left
+                while(!switchy.right.isLeaf()) { // & right as much as possible
+                    switchy = switchy.right;
+                    // switchy = next smallest value from deleteMe
+                }
+            } else { //if the right subtree has stuffz in it
+                switchy = deleteMe.right; // go one right
+                while(!switchy.left.isLeaf()) { // & left as much as possible
+                    switchy = switchy.left;
+                    // switchy = next largest value from deleteMe
+                }
+            }
+            deleteMe.setKey(switchy.getKey()); // deleteMe <-- switchy
+            deleteMe.setValue(switchy.getValue());
+            this.leafMeAlone(switchy); // cut switchy off
+        }
+        return deleteMeVal; //return deleted value
     }
+
     
     @Override()
     public Set<Map.Entry<K, V>> entries() {
@@ -220,4 +330,32 @@ public class BSTMap<K extends Comparable<? super K>, V>
     }
 
     /* -----  insert the BSTMapIterator inner class here ----- */
+
+
+    /* ---------- personal additions ---------- */
+
+    /**
+     * Traverses through the BSTMap to find the BNode with key.
+     * @param  key Key to traverse towards
+     * @return     THe node with that Key or null if not in map
+     */
+    private BNode<K, V> traverseByKey(K key) {
+        BNode<K, V> curr = this.root;
+        while(!curr.isLeaf() && !key.equals(curr.getKey())) {
+            if (key.compareTo(curr.getKey()) > 0) {
+                curr = curr.right;
+            } else {
+                curr = curr.left;
+            }
+        }
+        return curr;
+    }
+
+    private void leafMeAlone(BNode<K, V> node) {
+        node.right = null;
+        node.left = null;
+        node.setKey(null);
+        node.setValue(null);
+    }
+
 }
