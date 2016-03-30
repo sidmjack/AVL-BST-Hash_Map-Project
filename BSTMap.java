@@ -20,7 +20,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
     /** Inner node class.  Do not make this static because you want
         the K to be the same K as in the BSTMap header.
     */
-    private class BNode<K, V> implements Map.Entry<K, V> {
+    public class BNode<K, V> implements Map.Entry<K, V> {
 
         /** The key of the entry (null if sentinel node). */
         private K key;
@@ -455,6 +455,10 @@ public class BSTMap<K extends Comparable<? super K>, V>
         node.left = null;
         node.setKey(null);
         node.setValue(null);
+    }
+
+    public String toString() {
+        return this.inOrder().toString();
     }
 
     /**
