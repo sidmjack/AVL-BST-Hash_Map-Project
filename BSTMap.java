@@ -128,8 +128,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
     @Override()
     public boolean hasKey(K key) {
-    // Fill in
-        return false;
+        return this.get(key) != null;
     }
 
     @Override()
@@ -269,8 +268,10 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *  @return the min key
      */
     public K firstKey(BNode<K, V> curr) {
-    // Fill in
-        return null;
+        while(!curr.left.isLeaf()) { // & left as much as possible
+            curr = curr.left;
+        }
+        return curr.getKey();
     }
 
     /** Get the smallest key in a subtree.
@@ -278,27 +279,36 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *  @return the max key
      */
     public K lastKey(BNode<K, V> curr) {
-    // Fill in
-        return null;
+        while(!curr.right.isLeaf()) { // & right as much as possible
+            curr = curr.right;
+        }
+        return curr.getKey();
     }
 
     /** Inorder traversal that produces an iterator over key-value pairs.
      *  @return an iterable list of entries ordered by keys
      */
     public Iterable<Map.Entry<K, V>> inOrder() {
-        return this.inOrder(this.root);
+        LinkedList<Map.Entry<K, V>> ordered = new LinkedList<Map.Entry<K, V>>();
+        this.inOrder(this.root, ordered);
+        return ordered;
     }
     
     /** Inorder traversal produces an iterator over entries in a subtree.
      *  @param curr the root of the subtree to iterate over
      *  @return an iterable list of entries ordered by keys
      */
-    private Collection<Map.Entry<K, V>> inOrder(BNode<K, V> curr) {
-        LinkedList<Map.Entry<K, V>> ordered = new LinkedList<Map.Entry<K, V>>();
+    private void inOrder(BNode<K, V> curr,
+        Collection<Map.Entry<K, V>> ordered) {
 
-    // Fill in
-
-        return ordered;
+        if (!curr.left.isLeaf()) {
+            this.inOrder(curr.left, ordered);
+        }
+        ordered.add(curr);
+        if (!curr.right.isLeaf()) {
+            this.inOrder(curr.right, ordered);
+        }
+        
     }
 
     /** Returns a copy of the portion of this map whose keys are in a range.
@@ -307,15 +317,21 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *  @return the resulting submap
      */
     public BSTMap<K, V> subMap(K fromKey, K toKey) {
-    // Fill in
-        return null;
+        BSTMap<K, V> tree = new BSTMap<K, V>();
+        for (Map.Entry<K, V> entry : this.inOrder()) {
+            if (entry.getKey().compareTo(fromKey) >= 0 &&
+                entry.getKey().compareTo(toKey) <= 0) {
+                tree.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return tree;
     }
 
     /* ---------- from Iterable ---------- */
 
     @Override
     public Iterator<Map.Entry<K, V>> iterator() {
-        return null;
+        return new BSTMapIterator();
     }
 
     @Override
@@ -329,7 +345,28 @@ public class BSTMap<K extends Comparable<? super K>, V>
         return null;
     }
 
-    /* -----  insert the BSTMapIterator inner class here ----- */
+    /* -----  BSTMapIterator ----- */
+
+    private class BSTMapIterator implements Iterator<Map.Entry<K, V>> {
+        
+        public BSTMapIterator() {
+
+        }
+
+        public Map.Entry<K, V> next() {
+
+        }
+
+        public boolean hasNext() {
+
+        }
+
+        public void remove() {
+            
+        }
+
+
+    }
 
 
     /* ---------- personal additions ---------- */
