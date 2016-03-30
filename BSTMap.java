@@ -35,7 +35,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
          *  @param k the key for the new node
          *  @param v the value for the new node
          */
-        BNode(K k, V v) {
+        public BNode(K k, V v) {
             this.key = k;
             this.value = v;
             this.left = null;
