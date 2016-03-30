@@ -262,7 +262,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
     @Override()
     public Set<Map.Entry<K, V>> entries() {
         Set<Map.Entry<K, V>> entrySet
-        = new HashSet<Map.Entry<K, V>>(this.size());
+            = new HashSet<Map.Entry<K, V>>(this.size());
         for (Map.Entry<K, V> entry : this.inOrder()) {
             entrySet.add(entry);
         }
@@ -321,9 +321,12 @@ public class BSTMap<K extends Comparable<? super K>, V>
         return ordered;
     }
     
-    /** Inorder traversal produces an iterator over entries in a subtree.
-     *  @param curr the root of the subtree to iterate over
-     *  @return an iterable list of entries ordered by keys
+    /**
+     *  Inorder traversal produces an iterator over entries in a subtree.
+     *  @param curr     the root of the subtree to iterate over
+     *  @param ordered  Collection in which to place the inOrder
+     *                  traversal of the BSTMap
+     *  @return         an iterable list of entries ordered by keys
      */
     private void inOrder(BNode<K, V> curr,
         Collection<Map.Entry<K, V>> ordered) {
