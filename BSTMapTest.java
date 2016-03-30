@@ -48,8 +48,8 @@ public class BSTMapTest {
     static ArrayList<String> svals;
     static String[] nray = new String[sray.length];
     static ArrayList<String> nvals;
-    static HashSet<BSTMap.BNode<Integer,String>> entries;
-    static BSTMap.BNode<Integer,String> pair;
+    static HashSet<BSTMap<Integer,String>.BNode<Integer,String>> entries;
+    static BSTMap<Integer,String>.BNode<Integer,String> pair;
 
 
     /** This is a helper template method to see if two collections have the
@@ -91,9 +91,9 @@ public class BSTMapTest {
             idx++;
         }
 
-        entries = new HashSet<BSTMap.BNode<Integer,String>>();
+        entries = new HashSet<BSTMap<Integer,String>.BNode<Integer,String>>();
         for (int i=0; i < iray.length; i++) {
-            pair = new BSTMap.BNode<Integer,String>(iray[i],sray[i]);
+            pair = new BSTMap<Integer,String>.BNode<Integer,String>(iray[i],sray[i]);
             entries.add(pair);
         }
     }
@@ -205,13 +205,13 @@ public class BSTMapTest {
     public void testPutCollections() {
         HashSet<Integer> keys = new HashSet<Integer>();
         ArrayList<String> vals = new ArrayList<String>();
-        HashSet<BSTMap.BNode<Integer,String>> pairs = new HashSet<BSTMap.BNode<Integer,String>>();
+        HashSet<BSTMap<Integer,String>.BNode<Integer,String>> pairs = new HashSet<BSTMap<Integer,String>.BNode<Integer,String>>();
         for (int i=0; i < iray.length; i++) {
             assertNull(e7.put(iray[i],sray[i]));  // new key
             // printBSTMap(e7); //print the entirety of the hashmap
             keys.add(iray[i]);
             vals.add(sray[i]);
-            pairs.add(new BSTMap.BNode<Integer,String>(iray[i],sray[i]));
+            pairs.add(new BSTMap<Integer,String>.BNode<Integer,String>(iray[i],sray[i]));
             assertEquals(keys, e7.keys());
             assertTrue(sameCollection(e7.values(),vals));
             assertEquals(pairs, e7.entries());
@@ -225,7 +225,7 @@ public class BSTMapTest {
             assertEquals(sray[i], e7.get(key));
             keys.add(key);  // no dups
             vals.add(sray[i]);  // yes dups
-            pairs.add(new BSTMap.BNode<Integer,String>(key,sray[i]));
+            pairs.add(new BSTMap<Integer,String>.BNode<Integer,String>(key,sray[i]));
             assertEquals(keys, e7.keys());
             assertTrue(sameCollection(e7.values(),vals));
             assertEquals(pairs, e7.entries());
@@ -240,7 +240,7 @@ public class BSTMapTest {
     }
 
     public void printBSTMap(BSTMap<Integer, String> e7) {
-    	for (BSTMap.BNode<Integer, String> entry : e7) {
+    	for (BSTMap<Integer, String>.BNode<Integer, String> entry : e7) {
     		System.out.print(entry + ", ");
     	}
         System.out.println("");
@@ -342,7 +342,7 @@ public class BSTMapTest {
 
     @Test
     public void testAfterAddAll() {
-        for (BSTMap.BNode<Integer,String> p : entries) {
+        for (BSTMap<Integer,String>.BNode<Integer,String> p : entries) {
             e4.put(p.getKey(), p.getValue());
         }
         assertFalse(e4.isEmpty());
@@ -381,18 +381,18 @@ public class BSTMapTest {
     public void testIteratorFullNoCollisions() {
         // start with load factor 1 table
         BSTMap<Integer, String> full = new BSTMap<Integer,String>();
-        HashSet<BSTMap.BNode<Integer,String>> pairs = new HashSet<BSTMap.BNode<Integer,String>>();
+        HashSet<BSTMap<Integer,String>.BNode<Integer,String>> pairs = new HashSet<BSTMap<Integer,String>.BNode<Integer,String>>();
         int cap = 5;
         // put 5 entries in to fill
         for (int i=0; i < cap; i++) {
             full.put(i, i+"");
-            pairs.add(new BSTMap.BNode<Integer,String>(i, i+""));
+            pairs.add(new BSTMap<Integer,String>.BNode<Integer,String>(i, i+""));
         }
         assertEquals(pairs, full.entries());
-        Iterator<BSTMap.BNode<Integer,String>> it = full.iterator();
+        Iterator<BSTMap<Integer,String>.BNode<Integer,String>> it = full.iterator();
         int count = 0;
         while (it.hasNext()) {
-            assertEquals(new BSTMap.BNode<Integer,String>(count, count+""), it.next());
+            assertEquals(new BSTMap<Integer,String>.BNode<Integer,String>(count, count+""), it.next());
             count++;
         }
         assertEquals("iterated through all elements", cap, count);
@@ -402,7 +402,7 @@ public class BSTMapTest {
         it = full.iterator();
         count = 0;
         while (it.hasNext()) {
-            assertEquals(new BSTMap.BNode<Integer,String>(count, count+""), it.next());
+            assertEquals(new BSTMap<Integer,String>.BNode<Integer,String>(count, count+""), it.next());
             count++;
         }
         assertEquals("iterated through all elements", cap, count);
