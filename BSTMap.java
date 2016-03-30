@@ -57,7 +57,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
          * Replaces the value corresponding to this entry with the specified
          * value.
          *
-         * @param key new value to be stored in this entry
+         * @param k new value to be stored in this entry
          * @return the old value corresponding to the entry
          */
         public K setKey(K k) {
@@ -88,7 +88,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
          * Replaces the value corresponding to this entry with the specified
          * value.
          *
-         * @param value new value to be stored in this entry
+         * @param v new value to be stored in this entry
          * @return the old value corresponding to the entry
          */
         public V setValue(V v) {
@@ -261,7 +261,8 @@ public class BSTMap<K extends Comparable<? super K>, V>
     
     @Override()
     public Set<Map.Entry<K, V>> entries() {
-        Set<Map.Entry<K, V>> entrySet = new HashSet<Map.Entry<K, V>>(this.size());
+        Set<Map.Entry<K, V>> entrySet
+        = new HashSet<Map.Entry<K, V>>(this.size());
         for (Map.Entry<K, V> entry : this.inOrder()) {
             entrySet.add(entry);
         }
@@ -294,7 +295,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *  @return the min key
      */
     public K firstKey(BNode<K, V> curr) {
-        while(!curr.left.isLeaf()) { // & left as much as possible
+        while (!curr.left.isLeaf()) { // & left as much as possible
             curr = curr.left;
         }
         return curr.getKey();
@@ -305,7 +306,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *  @return the max key
      */
     public K lastKey(BNode<K, V> curr) {
-        while(!curr.right.isLeaf()) { // & right as much as possible
+        while (!curr.right.isLeaf()) { // & right as much as possible
             curr = curr.right;
         }
         return curr.getKey();
