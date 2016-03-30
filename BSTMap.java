@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import java.util.AbstractMap;
 import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.List;
@@ -51,7 +50,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
          *  @return true if leaf, false otherwise
          */
         public boolean isLeaf() {
-            return this.getKey() == null;  // this is a sentinel-based implementation
+            return this.getKey() == null;  // sentinel-based implementation
         }
 
         /**
@@ -61,9 +60,9 @@ public class BSTMap<K extends Comparable<? super K>, V>
          * @param key new value to be stored in this entry
          * @return the old value corresponding to the entry
          */
-        public K setKey(K key) {
+        public K setKey(K k) {
             K oldKey = this.key;
-            this.key = key;
+            this.key = k;
             return oldKey;
         }
 
@@ -73,7 +72,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
          * @return the key corresponding to this entry
          */
         public K getKey() {
-            return key;
+            return this.key;
         }
 
         /**
@@ -82,7 +81,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
          * @return the value corresponding to this entry
          */
         public V getValue() {
-            return value;
+            return this.value;
         }
 
         /**
@@ -92,9 +91,9 @@ public class BSTMap<K extends Comparable<? super K>, V>
          * @param value new value to be stored in this entry
          * @return the old value corresponding to the entry
          */
-        public V setValue(V value) {
+        public V setValue(V v) {
             V oldValue = this.value;
-            this.value = value;
+            this.value = v;
             return oldValue;
         }
 
@@ -149,7 +148,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
     @Override()
     public boolean hasValue(V value) {
-        return hasValue(value, this.root).getValue() != null;
+        return this.hasValue(value, this.root).getValue() != null;
     }
     
     public BNode<K, V> hasValue(V value, BNode<K, V> curr) {
@@ -161,7 +160,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
             return curr;
         }
 
-        BNode<K, V> l = hasValue(value, curr.left);
+        BNode<K, V> l = this.hasValue(value, curr.left);
 
 
         tempV = l.getValue();
@@ -169,7 +168,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
             return l;
         }
 
-        BNode<K, V> r = hasValue(value, curr.right);
+        BNode<K, V> r = this.hasValue(value, curr.right);
         return r;
     }
 
@@ -241,13 +240,13 @@ public class BSTMap<K extends Comparable<? super K>, V>
             BNode<K, V> switchy;
             if (!leftLeaf) { //if the left subtree has stuffz in it
                 switchy = deleteMe.left; // go one left
-                while(!switchy.right.isLeaf()) { // & right as much as possible
+                while (!switchy.right.isLeaf()) { // & right as much as possible
                     switchy = switchy.right;
                     // switchy = next smallest value from deleteMe
                 }
             } else { //if the right subtree has stuffz in it
                 switchy = deleteMe.right; // go one right
-                while(!switchy.left.isLeaf()) { // & left as much as possible
+                while (!switchy.left.isLeaf()) { // & left as much as possible
                     switchy = switchy.left;
                     // switchy = next largest value from deleteMe
                 }
@@ -346,8 +345,8 @@ public class BSTMap<K extends Comparable<? super K>, V>
     public BSTMap<K, V> subMap(K fromKey, K toKey) {
         BSTMap<K, V> tree = new BSTMap<K, V>();
         for (Map.Entry<K, V> entry : this.inOrder()) {
-            if (entry.getKey().compareTo(fromKey) >= 0 &&
-                entry.getKey().compareTo(toKey) <= 0) {
+            if (entry.getKey().compareTo(fromKey) >= 0
+                && entry.getKey().compareTo(toKey) <= 0) {
                 tree.put(entry.getKey(), entry.getValue());
             }
         }
@@ -381,7 +380,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
         private int iteratorModCounter;
         private Map.Entry<K, V> currentEntry;
 
-        public BSTMapIterator() {
+        BSTMapIterator() {
             this.iteratorModCounter = BSTMap.this.modCounter;
             this.internalList = BSTMap.this.inOrder();
             this.internalListIterator = this.internalList.iterator();
@@ -437,7 +436,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
      */
     private BNode<K, V> traverseByKey(K key) {
         BNode<K, V> curr = this.root;
-        while(!curr.isLeaf() && !key.equals(curr.getKey())) {
+        while (!curr.isLeaf() && !key.equals(curr.getKey())) {
             if (key.compareTo(curr.getKey()) > 0) {
                 curr = curr.right;
             } else {
