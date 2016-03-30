@@ -91,7 +91,7 @@ public class BSTMapTest {
             idx++;
         }
 
-        entries = new HashSet<BSTMap.BNode<Integer,String>>();
+        entries = new HashSet<Map.Entry<Integer,String>>();
         for (int i=0; i < iray.length; i++) {
             pair = new BSTMap.BNode<Integer,String>(iray[i],sray[i]);
             entries.add(pair);
