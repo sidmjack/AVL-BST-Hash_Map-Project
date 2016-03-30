@@ -93,7 +93,7 @@ public class BSTMapTest {
 
         entries = new HashSet<BSTMap.BNode<Integer,String>>();
         for (int i=0; i < iray.length; i++) {
-            pair = BSTMap.new BNode<Integer, String>(iray[i],sray[i]);
+            pair = new BSTMap.BNode<Integer,String>(iray[i],sray[i]);
             entries.add(pair);
         }
     }
