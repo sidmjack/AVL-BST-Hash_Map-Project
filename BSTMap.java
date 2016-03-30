@@ -6,7 +6,10 @@ import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.AbstractMap;
-
+import java.util.ConcurrentModificationException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 
 /** Binary Search Tree Map implementation with inner Node class.
  *  @param <K> the base type of the keys in the entries
@@ -97,10 +100,21 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
     }
 
+
+
     /** The root of this tree. */
     private BNode<K, V> root;
     /** The number of entries in this map (== non-sentinel nodes). */
     private int size;
+
+    /**
+     * A semi-arbitrary counter that is incremented every time one of the
+     * methods that makes a change to the hashmap is run. Used exclusively
+     * as an indicator of state, and whether or not it changed, to be monitored
+     * by the HashMapIterator to check if the HashMap was changed by 
+     * non-iterator functions since the iterator was created.
+     */
+    private int modCounter;
 
     /** Create an empty tree with a sentinel root node.
      */
@@ -108,6 +122,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
         // empty tree is a sentinel for the root
         this.root = new BNode<K, V>();
         this.size = 0;
+        this.modCounter = 0;
     }
 
     @Override()
@@ -119,6 +134,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
     public void clear() {
         this.root = null;
         this.size = 0;
+        this.modifyWithoutIterator();
     }
 
     @Override()
@@ -181,6 +197,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
     @Override()
     public V put(K key, V val) {
         BNode<K, V> node = this.traverseByKey(key);
+        this.modifyWithoutIterator();
         if (node.isLeaf()) {
 
             node.setKey(key);
@@ -203,11 +220,11 @@ public class BSTMap<K extends Comparable<? super K>, V>
      */
     @Override()
     public V remove(K key) {
-
         BNode<K, V> deleteMe = this.traverseByKey(key);
         if (deleteMe.isLeaf()) { // if key not in BSTMap, return null
             return null;
         }
+        this.modifyWithoutIterator();
 
         boolean leftLeaf = deleteMe.left.isLeaf();
         boolean rightLeaf = deleteMe.right.isLeaf();
@@ -245,20 +262,30 @@ public class BSTMap<K extends Comparable<? super K>, V>
     
     @Override()
     public Set<Map.Entry<K, V>> entries() {
-    // Fill in
-        return null;
+        Set<Map.Entry<K, V>> entrySet = new HashSet<Map.Entry<K, V>>(this.size());
+        for (Map.Entry<K, V> entry : this.inOrder()) {
+            entrySet.add(entry);
+        }
+        return entrySet;
     }
 
     @Override()
     public Set<K> keys() {
-    //Fill in
-        return null;
+        Set<K> keySet = new HashSet<K>(this.size());
+        for (Map.Entry<K, V> entry : this.inOrder()) {
+            keySet.add(entry.getKey());
+        }
+        return keySet;
+
     }
 
     @Override()
     public Collection<V> values() {
-    // Fill in
-        return null;
+        List<V> valueList = new ArrayList<V>(this.size());
+        for (Map.Entry<K, V> entry : this.inOrder()) {
+            valueList.add(entry.getValue());
+        }
+        return valueList;
     }
 
     /* -----   BSTMap-specific functions   ----- */
@@ -349,20 +376,52 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
     private class BSTMapIterator implements Iterator<Map.Entry<K, V>> {
         
+        private Iterable<Map.Entry<K, V>> internalList;
+        private Iterator<Map.Entry<K, V>> internalListIterator;
+        private int iteratorModCounter;
+        private Map.Entry<K, V> currentEntry;
+
         public BSTMapIterator() {
-
+            this.iteratorModCounter = BSTMap.this.modCounter;
+            this.internalList = BSTMap.this.inOrder();
+            this.internalListIterator = this.internalList.iterator();
         }
 
-        public Map.Entry<K, V> next() {
-
+        public Map.Entry<K, V> next() throws ConcurrentModificationException {
+            if (!this.iteratorStillValid()) {
+                throw new ConcurrentModificationException();
+            }
+            this.currentEntry = this.internalListIterator.next();
+            return this.currentEntry;
         }
 
-        public boolean hasNext() {
+        public boolean hasNext() throws ConcurrentModificationException {
+            if (!this.iteratorStillValid()) {
+                throw new ConcurrentModificationException();
+            }
 
+            return this.internalListIterator.hasNext();
         }
 
-        public void remove() {
-            
+        public void remove() throws ConcurrentModificationException {
+            if (!this.iteratorStillValid()) {
+                throw new ConcurrentModificationException();
+            }
+            this.internalListIterator.remove();
+            K keyToRemove = this.currentEntry.getKey();
+            BSTMap.this.remove(keyToRemove);
+
+            this.iteratorModCounter = BSTMap.this.modCounter;
+        }
+
+        /**
+         * Returns true is the hashmap hasn't invalidated the iterator by
+         * changing without the iterator.
+         * @return true if hashmap hasn't invalidated the iterator.
+         */
+        private boolean iteratorStillValid() {
+
+            return this.iteratorModCounter == BSTMap.this.modCounter;
         }
 
 
@@ -393,6 +452,13 @@ public class BSTMap<K extends Comparable<? super K>, V>
         node.left = null;
         node.setKey(null);
         node.setValue(null);
+    }
+
+    /**
+     * Increases the modification counter for use by the HashMapIterator.
+     */
+    private void modifyWithoutIterator() {
+        this.modCounter++;
     }
 
 }
