@@ -604,11 +604,13 @@ public class TreeMapTest {
 
         while (it.hasNext()) {
             e = it.next();
+            assertEquals(entries[count].getKey(), e.getKey());
+            assertEquals(entries[count].getValue(), e.getValue());
             if (count < size) {
                 assertEquals(entries[count],
                         new AbstractMap.SimpleEntry<Integer,String>(e.getKey(), e.getValue()));
             }
-            if (count % 4 == 0) {  // only remove 1/3 of the entries, no rehash
+            if (count % 3 == 0) {  // only remove 1/3 of the entries, no rehash
                 it.remove();  
                 pairs.remove(new AbstractMap.SimpleEntry<Integer,String>(e.getKey(), e.getValue())); 
                 keys.remove(e.getKey());
