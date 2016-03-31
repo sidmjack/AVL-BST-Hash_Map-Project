@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.ConcurrentModificationException;
+import java.util.NoSuchElementException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
@@ -509,13 +510,13 @@ public class BSTMap<K extends Comparable<? super K>, V>
          * @throws ConcurrentModificationException : Invalidates the iterator 
          * if outer operation changes the tree structure.
          */
-        public Map.Entry<K, V> next() throws ConcurrentModificationException {
+        public Map.Entry<K, V> next() throws ConcurrentModificationException, NoSuchElementException {
             if (!this.iteratorStillValid()) {
                 throw new ConcurrentModificationException();
             }
-            // if (!this.hasNext()) {
-            //     throw new;
-            // }
+            if (!this.hasNext()) {
+                throw new NoSuchElementException();
+            }
             this.currentEntry = this.internalListIterator.next();
             return this.currentEntry;
         }
