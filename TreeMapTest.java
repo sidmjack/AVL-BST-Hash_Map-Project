@@ -608,7 +608,7 @@ public class TreeMapTest {
                 assertEquals(entries[count],
                         new AbstractMap.SimpleEntry<Integer,String>(e.getKey(), e.getValue()));
             }
-            if (count % 3 == 0) {  // only remove 1/3 of the entries, no rehash
+            if (count % 4 == 0) {  // only remove 1/3 of the entries, no rehash
                 it.remove();  
                 pairs.remove(new AbstractMap.SimpleEntry<Integer,String>(e.getKey(), e.getValue())); 
                 keys.remove(e.getKey());
