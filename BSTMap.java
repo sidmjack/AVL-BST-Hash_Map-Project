@@ -205,6 +205,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
             node.left = new BNode<K, V>();
             node.right = new BNode<K, V>();
 
+            this.size++;
 
             return null;
         } else {
@@ -255,6 +256,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
             deleteMe.setValue(switchy.getValue());
             this.leafMeAlone(switchy); // cut switchy off
         }
+        this.size--;
         return deleteMeVal; //return deleted value
     }
 
