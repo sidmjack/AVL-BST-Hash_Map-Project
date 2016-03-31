@@ -103,16 +103,15 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
         @Override
         public boolean equals(Object o) {
-            BNode that = null;
+            BNode<K, V> that = null;
             try {
-                that = (BNode) o;
+                that = (BNode<K, V>) o;
             } catch (ClassCastException e) {
                 return false;
             }
             return this.key.equals(that.key) && this.value.equals(that.value);
         }
 
-        @Override
         public int hashCode() {
             return super.hashCode();
         }
