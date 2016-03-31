@@ -535,11 +535,11 @@ public class TreeMapTest {
         int i = 0;
         System.out.println("\n\n" + full.toString());
         while (it.hasNext()) {
-            Iterator<Map.Entry<Integer, String>> it2 = full.iterator();
-            while (it2.hasNext()) {
-                System.out.print(it2.next() + ", ");
-            }
-            System.out.println();
+            // Iterator<Map.Entry<Integer, String>> it2 = full.iterator();
+            // while (it2.hasNext()) {
+            //     System.out.print(it2.next() + ", ");
+            // }
+            // System.out.println();
 
 
             Map.Entry<Integer, String> tmp = it.next();
