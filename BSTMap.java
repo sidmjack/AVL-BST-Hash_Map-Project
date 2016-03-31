@@ -256,27 +256,34 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
         // if both children are leaves, cut off that node and make it a leaf.
         if (leftLeaf && rightLeaf) {
-            this.leafMeAlone(deleteMe);
+            this.leafMeAlone(deleteMe, null, false, false);
         } else {
             // we'll have to traverse to find the next smallest/largest value
             // to replace the removed key's node.
             BNode<K, V> switchy;
+            BNode<K, V> switchyMom = deleteMe;
+            boolean rightChild = leftLeaf;
+            boolean startedRight = leftLeaf;
             if (!leftLeaf) { //if the left subtree has stuffz in it
                 switchy = deleteMe.left; // go one left
                 while (!switchy.right.isLeaf()) { // & right as much as possible
+                    switchyMom = switchy;
+                    rightChild = true;
                     switchy = switchy.right;
                     // switchy = next smallest value from deleteMe
                 }
             } else { //if the right subtree has stuffz in it
                 switchy = deleteMe.right; // go one right
                 while (!switchy.left.isLeaf()) { // & left as much as possible
+                    switchyMom = switchy;
+                    rightChild = false;
                     switchy = switchy.left;
                     // switchy = next largest value from deleteMe
                 }
             }
             deleteMe.setKey(switchy.getKey()); // deleteMe <-- switchy
             deleteMe.setValue(switchy.getValue());
-            this.leafMeAlone(switchy); // cut switchy off
+            this.leafMeAlone(switchy, switchyMom, rightChild, startedRight); // cut switchy off
         }
         this.size--;
         return deleteMeVal; //return deleted value
@@ -358,36 +365,13 @@ public class BSTMap<K extends Comparable<? super K>, V>
              return new LinkedList<Map.Entry<K, V>>();
          }
 
-
         LinkedList<Map.Entry<K, V>> ordered = this.inOrder(curr.left);
 
         ordered.add(curr);
 
         ordered.addAll(this.inOrder(curr.right));
 
-        return ordered;
-
-
-
-/*
-        // that is, an empty tree should not fill up it's in order list
-        // if it tried to, it would pull null pointer exceptions on the
-        // babies it doesn't have
-        if (curr.isLeaf()) { 
-            return;
-        }
-
-        if (!curr.left.isLeaf()) {
-            this.inOrder(curr.left, ordered);
-        }
-        ordered.add(curr);
-        if (!curr.right.isLeaf()) {
-            this.inOrder(curr.right, ordered);
-        }
-*/
-
-
-        
+        return ordered;        
     }
 
     /** Returns a copy of the portion of this map whose keys are in a range.
@@ -499,11 +483,25 @@ public class BSTMap<K extends Comparable<? super K>, V>
         return curr;
     }
 
-    private void leafMeAlone(BNode<K, V> node) {
-        node.right = null;
-        node.left = null;
-        node.setKey(null);
-        node.setValue(null);
+    private void leafMeAlone(BNode<K, V> node, BNode<K, V> nodeParent, boolean isRightChild, boolean startedRight ) {
+        if (node.left.isLeaf() && node.right.isLeaf()) {
+            node.right = null;
+            node.left = null;
+            node.setKey(null);
+            node.setValue(null);
+        } else {
+            BNode<K, V> toLink;
+            if (startedRight) {
+                toLink = node.right;
+            } else {
+                toLink = node.left;
+            }
+            if (isRightChild) {
+                nodeParent.right = toLink;
+            } else {
+                nodeParent.left = toLink;
+            }
+        }
     }
 
     public String toString() {
