@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.ConcurrentModificationException;
+import java.util.NoSuchElementException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
@@ -410,7 +411,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
      * Inorder traversal that produces an iterator over key-value pairs.
      *  @return an iterable list of entries ordered by keys
      */
-    public Iterable<Map.Entry<K, V>> inOrder() {
+    public LinkedList<Map.Entry<K, V>> inOrder() {
         return this.inOrder(this.root);
         
     }
@@ -493,21 +494,13 @@ public class BSTMap<K extends Comparable<? super K>, V>
     private class BSTMapIterator implements Iterator<Map.Entry<K, V>> {
         
         /** Internal List of Nodes. */
-        private Iterable<Map.Entry<K, V>> internalList;
+        private LinkedList<Map.Entry<K, V>> internalList;
         /** Internal List Iterator. */
         private Iterator<Map.Entry<K, V>> internalListIterator;
         /** Iterator Modification Counter. */
         private int iteratorModCounter;
         /** Current Entry. */
         private Map.Entry<K, V> currentEntry;
-        /** Last Entry. */
-        private Map.Entry<K, V> lastEntry;
-        /** two ago Entry. */
-        private Map.Entry<K, V> twoAgoEntry;
-        /** removable is it?. */
-        private boolean removable;
-
-
 
         /**
          * Iterator for Binary Search Tree.
@@ -516,7 +509,6 @@ public class BSTMap<K extends Comparable<? super K>, V>
             this.iteratorModCounter = BSTMap.this.modCounter;
             this.internalList = BSTMap.this.inOrder();
             this.internalListIterator = this.internalList.iterator();
-            this.removable = false;
         }
 
         /**
@@ -525,11 +517,13 @@ public class BSTMap<K extends Comparable<? super K>, V>
          * @throws ConcurrentModificationException : Invalidates the iterator 
          * if outer operation changes the tree structure.
          */
-        public Map.Entry<K, V> next() throws ConcurrentModificationException {
+        public Map.Entry<K, V> next() throws ConcurrentModificationException, NoSuchElementException {
             if (!this.iteratorStillValid()) {
                 throw new ConcurrentModificationException();
             }
-            this.removable = true;
+            if (!this.hasNext()) {
+                throw new NoSuchElementException();
+            }
             this.currentEntry = this.internalListIterator.next();
             return this.currentEntry;
         }
@@ -557,6 +551,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
             if (!this.iteratorStillValid()) {
                 throw new ConcurrentModificationException();
             }
+<<<<<<< HEAD
             if (this.removable) {
                 this.removable = false;
                 K keyToRemove = this.currentEntry.getKey();
@@ -573,7 +568,13 @@ public class BSTMap<K extends Comparable<? super K>, V>
                 
                 this.iteratorModCounter = BSTMap.this.modCounter;
             }
+=======
+            this.internalListIterator.remove();
+            K keyToRemove = this.currentEntry.getKey();
+            BSTMap.this.remove(keyToRemove);
+>>>>>>> 589aecdad738fc8d484e8b05255bffd931cf9b9f
 
+            this.iteratorModCounter = BSTMap.this.modCounter;
         }
 
         /**
