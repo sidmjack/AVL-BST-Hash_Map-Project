@@ -2,13 +2,108 @@ Name: Lawrence Wolf-Sonkin & Sidney Jackson
 JHU Login: lwolfso1  & sjacks85
 Course: Data Structure (600.226.02)
 Project: Project #3A (Basic BST Implementation)
-Due Date: 03-30-2016
-Last Modified: 03-23-2016
+Due Date: 03-27-2016
+Last Modified: 03-28-2016
 
 README FILE:
 
+******************************************************************************
+******************************************************************************
+***    => -> -> Made Iterator Remove ...5 Extra Points Please! <- <- <=    ***
+******************************************************************************
+******************************************************************************
+
 SUMMARY:
+
+Implementing the methods were pretty straight forward. The only two methods that 
+proved to be more difficult than expeceted were the remove function and
+the inorder function. The rest of the functions were implemented without much
+trouble from there on. 
 
 COMPLICATIONS:
 
+For our program, we initially only defined our remove function to handle two
+cases when the key was found. Cases: If the key was found and it had to
+child nodes and when the key was found and it did not have any children.
+We never accounted for the event that a key we found had only one child.
+To say the lease, this gave us problems and we spent quite a bit of time 
+trying to track down this bug. The next major issue we had, had to do with
+our inOrder function (or so we thought). Because a lot of the methods 
+relied on one another, we weren't sure which method was giving us problems.
+We suspected the inORder function for a bit, and honestly still arn't sure
+if it ever gave us an issue, but after collectively modifying our code to 
+iron out issues that were occuring in the remove methods, iterator, and 
+inOrder method, our program proved to work (mostly) fine. Finally, 
+our last issue had to do with the iterator. For the most part, it
+worked fine. It traversed the entries as expected and removed items as
+expected...that is until we reached the end of the entries. Once the 
+iterator pointed to the last value, the last value magically became NULL!
+We tried tracking it down, and for the life of us COULD NOT figure out 
+where NULL was coming from. We would refer to the iterator, print 
+current item, and printed every item as it performed each iterator 
+operation, and for whatever reason, whenever the iterator reached the 
+last value, all of the last node's fields would become NULL...
+We don't know why. It's a weird edge case we had to deal with.
+Final Finally, though this wasn't a major issue, we could never get our 
+JUNIT test to admit that the contents of equal compared expected
+sets and our product set were the same. We printed the correct keys and
+values and entries when we compared them to the expected, but JUNIT
+refused to ackowledge they were the same. I dunno. 
+
+
 IMPROVEMENTS:
+
+If we had more time, we likely would have accounted for more functions and
+variables that would've made implementing an AVL Map easier. Also, there
+are a couple of areas where handling references could've been "prettier", 
+but due to time constraints we didn't spend to much time worrying over
+the style of the code (towards the end).
+
+**********************************************************************************
+
+COMMENTS TO SELF:
+
+We may add additional helper methods and variables to BSTMap.
+BST Map must also implement some of the Iterable Interface from Java (Eww).
+Sentinel = Leaves = Nodes without children and no data.
+Must have a nested class for binary tree nodes (already declared for us.)
+Reference Class is called BSTree to help us get started.
+BSTMap supports functions like creating subsets of the original Map that fall 
+between a minimum and maximum key. When you implement the iterator, you may
+find it easiest to create an intermediate data structure (e.g. a List) 
+-> We should definitely implement the remove function.
+
+Note for Part A Implementation: 
+Another (more general) way to do this would be to implement a generic binary search
+tree, and then to use Map.Entry as a way to store key-value pairs. The comparator 
+for Map.Entry would operate on the key value. Then BSTMap would simply wrap this 
+general data structure and add Map-specific functionality. If you prefer to try
+this approach rather than use our code, you're welcome to try that as well.
+
+Things to Consider While Writing Part A (For Part B):
+Summary Part B: Make a self balancing tree (AVL TREE!) 
+
+Keep in mind, while we program that we should know that at some point we'll 
+needto support balancing later on (also, eww)...
+We should consider allowing the nodes to store the height of the node.
+Consider writing a function that prints via in order traversal (with all info
+[including node heights]) for easier future testing.
+
+Things to consider while writing for Part C (Trying to think ahead).
+Summary of Part C: 
+Use our maps to Count Word Occurrences in a document.
+-> Word in Document = Key
+-> Key Hold Data Field that keeps track of it's instance/ occurence in the document.
+-> Once the entire list of words is read, create a reverse index by extracting all key 
+value pairs in your map and inserting the string into a second AVLMap. This AVLMap uses 
+a key that is the count and the data is the words that have that count. Note that this 
+is now a dictionary (i.e. multiple words may have the same count), so use a collection
+of some sort to hold the words associated with the count (ArrayList is Nice)
+
+
+
+
+
+
+
+
