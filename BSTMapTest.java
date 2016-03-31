@@ -368,7 +368,7 @@ public class BSTMapTest {
             assertFalse(all.hasKey(iray[i]));  // gone
             keys.remove(iray[i]);
             vals.remove(sray[i]);
-            assertEquals("Deleting the " + i + "th element. expected:<" + keys +  "> but was:<" + all.keys() + ">", keys, all.keys());
+            assertEquals("Deleting the " + i + "th element.", keys, all.keys());
             assertTrue(sameCollection(vals, all.values()));
         }
         assertTrue(all.isEmpty());
