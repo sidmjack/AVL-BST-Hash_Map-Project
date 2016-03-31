@@ -101,9 +101,22 @@ public class BSTMap<K extends Comparable<? super K>, V>
             return "(" + this.getKey() + ", " + this.getValue() + ")";
         }
 
-        public boolean equals(BNode<K, V> that) {
+        @Override
+        public boolean equals(Object o) {
+            BNode that = null;
+            try {
+                that = (BNode) o;
+            } catch (ClassCastException e) {
+                return false;
+            }
             return this.key.equals(that.key) && this.value.equals(that.value);
         }
+
+        @Override
+        public int hashCode() {
+            return super.hashCode();
+        }
+
 
     }
 
