@@ -108,8 +108,8 @@ public class BSTMapTest {
 
         // this is full set, assuming put works correctly
         all = new BSTMap<Integer, String>();
-        all.put(iray[iray.length - 1]);
-        all.put(iray[iray.length - 2]);
+        all.put(iray[iray.length - 1], sray[iray.length - 1]);
+        all.put(iray[iray.length - 2], sray[iray.length - 2]);
         for (int i=0; i < iray.length - 2; i++) {
             all.put(iray[i], sray[i]);
         }
