@@ -107,8 +107,10 @@ public class BSTMap<K extends Comparable<? super K>, V>
             try {
                 that = (BNode<K, V>) o;
             } catch (ClassCastException e) {
+                System.out.println("Why you give me not BNode????");
                 return false;
             }
+            System.out.println("This equals that");
             return this.key.equals(that.key) && this.value.equals(that.value);
         }
 
