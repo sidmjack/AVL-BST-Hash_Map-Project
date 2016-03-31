@@ -97,6 +97,10 @@ public class BSTMap<K extends Comparable<? super K>, V>
             return oldValue;
         }
 
+        public String toString() {
+            return "(" + this.getKey() + ", " + this.getValue() + ")";
+        }
+
     }
 
 
