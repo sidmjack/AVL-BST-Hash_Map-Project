@@ -534,7 +534,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
             if (!this.hasNext()) {
                 throw new NoSuchElementException();
             }
-            removable = true;
+            this.removable = true;
             this.index++;
             this.currentEntry = this.internalListIterator.next();
             return this.currentEntry;
@@ -600,7 +600,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
                 for (int i = 0; i < reallignmentSteps; i++) {
                     this.next();
                 }
-                this.removable = false
+                this.removable = false;
 
             }
 
