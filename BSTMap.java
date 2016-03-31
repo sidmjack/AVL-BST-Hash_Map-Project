@@ -525,6 +525,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
                 throw new NoSuchElementException();
             }
             this.currentEntry = this.internalListIterator.next();
+            System.out.println(this.currentEntry);
             return this.currentEntry;
         }
 
@@ -556,7 +557,6 @@ public class BSTMap<K extends Comparable<? super K>, V>
             BSTMap.this.remove(keyToRemove);
 
             this.iteratorModCounter = BSTMap.this.modCounter;
-            System.out.println(BSTMap.this);
         }
 
         /**
