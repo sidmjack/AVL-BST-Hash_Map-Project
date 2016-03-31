@@ -256,7 +256,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *  @param key the key of the entry
      *  @param val the value of the entry
      *  @param curr the root of the subtree into which to put the entry
-     *  @return the original value associated with the key, or null if not found
+     *  @return original value associated with the key, or null if not found
      */
     @Override()
     public V put(K key, V val) {
@@ -300,19 +300,17 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
         // if both children are leaves, cut off that node and make it a leaf.
         if (leftLeaf && rightLeaf) {
-            this.leafMeAlone(deleteMe, null, false, false);
+            this.leafMeAlone(deleteMe);
         } else {
             // we'll have to traverse to find the next smallest/largest value
             // to replace the removed key's node.
             BNode<K, V> switchy;
             BNode<K, V> switchyMom = deleteMe;
-            boolean rightChild = leftLeaf;
             boolean startedRight = leftLeaf;
             if (!leftLeaf) { //if the left subtree has stuffz in it
                 switchy = deleteMe.left; // go one left
-                while (!switchy.right.isLeaf()) { // & right as much as possible
+                while (!switchy.right.isLeaf()) { //& right as much as possible
                     switchyMom = switchy;
-                    rightChild = true;
                     switchy = switchy.right;
                     // switchy = next smallest value from deleteMe
                 }
@@ -320,14 +318,15 @@ public class BSTMap<K extends Comparable<? super K>, V>
                 switchy = deleteMe.right; // go one right
                 while (!switchy.left.isLeaf()) { // & left as much as possible
                     switchyMom = switchy;
-                    rightChild = false;
                     switchy = switchy.left;
                     // switchy = next largest value from deleteMe
                 }
             }
             deleteMe.setKey(switchy.getKey()); // deleteMe <-- switchy
             deleteMe.setValue(switchy.getValue());
-            this.leafMeAlone(switchy, switchyMom, rightChild, startedRight); // cut switchy off
+
+            // cut switchy off
+            this.getRidOfNodeForDeletion(switchy, switchyMom, startedRight);
         }
         this.size--;
         return deleteMeVal; //return deleted value
@@ -567,7 +566,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
     /**
      * Traverses through the BSTMap to find the BNode with key.
      * @param  key Key to traverse towards.
-     * @return     THe node with that Key or null if not in map.
+     * @return     The node with that Key or null if not in map.
      */
     private BNode<K, V> traverseByKey(K key) {
         BNode<K, V> curr = this.root;
@@ -581,15 +580,17 @@ public class BSTMap<K extends Comparable<? super K>, V>
         return curr;
     }
     /**
-     * Transforms the node that's operated on into a leaf.
-     * @param node :the node that's operated on.
+     * Gets rid of a node for deletion by linking parents to children
+     * or turning a childless sad node into a leaf.
+     * @param node the node that's operated on.
+     * @param nodeParent parent of the node operated on
+     * @param startedRight true if traverse started by going right
      */
-    private void leafMeAlone(BNode<K, V> node, BNode<K, V> nodeParent, boolean isRightChild, boolean startedRight ) {
+    private void getRidOfNodeForDeletion(BNode<K, V> node,
+        BNode<K, V> nodeParent, boolean startedRight ) {
+
         if (node.left.isLeaf() && node.right.isLeaf()) {
-            node.right = null;
-            node.left = null;
-            node.setKey(null);
-            node.setValue(null);
+            leafMeAlone(node);
         } else {
             BNode<K, V> toLink;
             if (startedRight) {
@@ -597,12 +598,22 @@ public class BSTMap<K extends Comparable<? super K>, V>
             } else {
                 toLink = node.left;
             }
-            if (isRightChild) {
+            if (nodeParent.right == node) {
                 nodeParent.right = toLink;
             } else {
                 nodeParent.left = toLink;
             }
         }
+    }
+    /**
+     * Transforms the node that's operated on into a leaf.
+     * @param node the node that's operated on.
+     */
+    private void leafMeAlone(BNode<K, V> node) {
+        node.right = null;
+        node.left = null;
+        node.setKey(null);
+        node.setValue(null);
     }
     /**
      * Simply offer's method to print string of list.
