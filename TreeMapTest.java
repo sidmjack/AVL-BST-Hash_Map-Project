@@ -544,8 +544,8 @@ public class TreeMapTest {
 
             Map.Entry<Integer, String> tmp = it.next();
             System.out.println(tmp);
-            // assertEquals(tmp.getKey(),(Integer)i);
-            // assertEquals(tmp.getValue(), i + "");
+            assertEquals(tmp.getKey(),(Integer)i);
+            assertEquals(tmp.getValue(), i + "");
             it.remove();
             System.out.println("\n\n" + full.toString());
             count--;
