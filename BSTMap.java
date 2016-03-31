@@ -101,23 +101,23 @@ public class BSTMap<K extends Comparable<? super K>, V>
             return "(" + this.getKey() + ", " + this.getValue() + ")";
         }
 
-        @Override
-        public boolean equals(Object o) {
-            System.out.println("Does this equal that??");
-            BNode<K, V> that = null;
-            try {
-                that = (BNode<K, V>) o;
-            } catch (ClassCastException e) {
-                System.out.println("Why you give me not BNode????");
-                return false;
-            }
-            System.out.println("This equals that");
-            return this.key.equals(that.key) && this.value.equals(that.value);
-        }
+        // @Override
+        // public boolean equals(Object o) {
+        //     System.out.println("Does this equal that??");
+        //     BNode<K, V> that = null;
+        //     try {
+        //         that = (BNode<K, V>) o;
+        //     } catch (ClassCastException e) {
+        //         System.out.println("Why you give me not BNode????");
+        //         return false;
+        //     }
+        //     System.out.println("This equals that");
+        //     return this.key.equals(that.key) && this.value.equals(that.value);
+        // }
 
-        public int hashCode() {
-            return super.hashCode();
-        }
+        // public int hashCode() {
+        //     return super.hashCode();
+        // }
 
 
     }
