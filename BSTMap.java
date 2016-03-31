@@ -493,6 +493,14 @@ public class BSTMap<K extends Comparable<? super K>, V>
         private int iteratorModCounter;
         /** Current Entry. */
         private Map.Entry<K, V> currentEntry;
+        /** Last Entry. */
+        private Map.Entry<K, V> lastEntry;
+        /** two ago Entry. */
+        private Map.Entry<K, V> twoAgoEntry;
+        /** removable is it?. */
+        private boolean removable;
+
+
 
         /**
          * Iterator for Binary Search Tree.
@@ -501,6 +509,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
             this.iteratorModCounter = BSTMap.this.modCounter;
             this.internalList = BSTMap.this.inOrder();
             this.internalListIterator = this.internalList.iterator();
+            this.removable = false;
         }
 
         /**
@@ -513,6 +522,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
             if (!this.iteratorStillValid()) {
                 throw new ConcurrentModificationException();
             }
+            this.removable = true;
             this.currentEntry = this.internalListIterator.next();
             return this.currentEntry;
         }
@@ -540,11 +550,23 @@ public class BSTMap<K extends Comparable<? super K>, V>
             if (!this.iteratorStillValid()) {
                 throw new ConcurrentModificationException();
             }
-            this.internalListIterator.remove();
-            K keyToRemove = this.currentEntry.getKey();
-            BSTMap.this.remove(keyToRemove);
+            if (this.removable) {
+                this.removable = false;
+                K keyToRemove = this.currentEntry.getKey();
+                BSTMap.this.remove(keyToRemove);
 
-            this.iteratorModCounter = BSTMap.this.modCounter;
+                this.internalList = BSTMap.this.inOrder();
+
+                if (this.twoAgoEntry != null) {
+                    while (this.hasNext()
+                        && !this.next().getKey().equals(lastEntry.getKey())) {
+
+                    }
+                }
+                
+                this.iteratorModCounter = BSTMap.this.modCounter;
+            }
+
         }
 
         /**
