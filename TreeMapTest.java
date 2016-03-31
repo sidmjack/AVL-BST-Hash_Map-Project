@@ -533,7 +533,7 @@ public class TreeMapTest {
         Iterator<Map.Entry<Integer, String>> it = full.iterator();
         int count = cap;
         int i = 0;
-        System.out.println(full.toString());
+        System.out.println("\n\n" + full.toString());
         while (it.hasNext()) {
             Map.Entry<Integer, String> tmp = it.next();
             assertEquals(tmp.getKey(),(Integer)i);
