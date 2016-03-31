@@ -501,6 +501,9 @@ public class BSTMap<K extends Comparable<? super K>, V>
         private int iteratorModCounter;
         /** Current Entry. */
         private Map.Entry<K, V> currentEntry;
+        /** Current index. */
+        private int index;
+
 
         /**
          * Iterator for Binary Search Tree.
@@ -509,6 +512,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
             this.iteratorModCounter = BSTMap.this.modCounter;
             this.internalList = BSTMap.this.inOrder();
             this.internalListIterator = this.internalList.iterator();
+            this.index = -1;
         }
 
         /**
@@ -524,6 +528,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
             if (!this.hasNext()) {
                 throw new NoSuchElementException();
             }
+            this.index++;
             this.currentEntry = this.internalListIterator.next();
             return this.currentEntry;
         }
@@ -551,28 +556,41 @@ public class BSTMap<K extends Comparable<? super K>, V>
             if (!this.iteratorStillValid()) {
                 throw new ConcurrentModificationException();
             }
-<<<<<<< HEAD
-            if (this.removable) {
-                this.removable = false;
-                K keyToRemove = this.currentEntry.getKey();
-                BSTMap.this.remove(keyToRemove);
+// <<<<<<< HEAD
+//             // if (this.removable) {
+//                 // this.removable = false;
+//                 K keyToRemove = this.currentEntry.getKey();
+//                 BSTMap.this.remove(keyToRemove);
 
-                this.internalList = BSTMap.this.inOrder();
+//                 this.internalList = BSTMap.this.inOrder();
 
-                if (this.twoAgoEntry != null) {
-                    while (this.hasNext()
-                    && !this.next().getKey().equals(this.lastEntry.getKey())) {
+//                 if (this.twoAgoEntry != null) {
+//                     while (this.hasNext()
+//                     && !this.next().getKey().equals(this.lastEntry.getKey())) {
 
-                    }
-                }
+//                     }
+//                 }
                 
-                this.iteratorModCounter = BSTMap.this.modCounter;
-            }
-=======
-            this.internalListIterator.remove();
+//                 this.iteratorModCounter = BSTMap.this.modCounter;
+//             }
+// =======
+            
+
+
+            // this.internalListIterator.remove();
+            
             K keyToRemove = this.currentEntry.getKey();
             BSTMap.this.remove(keyToRemove);
->>>>>>> 589aecdad738fc8d484e8b05255bffd931cf9b9f
+
+
+            this.internalList = BSTMap.this.inOrder();
+            this.internalListIterator = this.internalList.iterator();
+            for (int i = 0; i < index; i++) {
+                this.next();
+            }
+
+            
+// >>>>>>> 589aecdad738fc8d484e8b05255bffd931cf9b9f
 
             this.iteratorModCounter = BSTMap.this.modCounter;
         }
