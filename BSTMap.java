@@ -101,6 +101,10 @@ public class BSTMap<K extends Comparable<? super K>, V>
             return "(" + this.getKey() + ", " + this.getValue() + ")";
         }
 
+        public boolean equals(BNode<K, V> that) {
+            return this.key.equals(that.key) && this.value.equals(that.value);
+        }
+
     }
 
 
