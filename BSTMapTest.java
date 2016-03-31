@@ -111,6 +111,7 @@ public class BSTMapTest {
         for (int i=0; i < iray.length; i++) {
             all.put(iray[i], sray[i]);
         }
+        System.out.println(all);
     }
 
 
@@ -361,6 +362,10 @@ public class BSTMapTest {
         BSTMap<Integer, String> emMap = new BSTMap<Integer, String>();
         Iterable<Map.Entry<Integer, String>> emList = new LinkedList<Map.Entry<Integer, String>>();
         assertEquals(emList, emMap.inOrder());
+        // fulLis
+        // for (int i = 0; i < iray.length; i++) {
+            
+        // }
     }
 
     @Test
@@ -368,6 +373,7 @@ public class BSTMapTest {
         int size = all.size();
         Set<Integer> keys = all.keys();
         Collection<String> vals = all.values();
+        assertEquals(keys, all.keys());
         for (int i=0; i < iray.length; i++) {
             assertEquals(sray[i], all.remove(iray[i])); // returns val
             size--;
