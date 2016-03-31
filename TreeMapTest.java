@@ -539,6 +539,7 @@ public class TreeMapTest {
             assertEquals(tmp.getKey(),(Integer)i);
             assertEquals(tmp.getValue(), i + "");
             it.remove();
+            System.out.println("\n\n" + full.toString());
             count--;
             pairs.remove(new AbstractMap.SimpleEntry<Integer,String>(i, i+""));
             assertEquals(count, full.size());
