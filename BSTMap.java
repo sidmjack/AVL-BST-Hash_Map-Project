@@ -503,6 +503,8 @@ public class BSTMap<K extends Comparable<? super K>, V>
         private Map.Entry<K, V> currentEntry;
         /** Current index. */
         private int index;
+        /** can be removed. */
+        private boolean removable;
 
 
         /**
@@ -513,6 +515,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
             this.internalList = BSTMap.this.inOrder();
             this.internalListIterator = this.internalList.iterator();
             this.index = 0;
+            this.removable = false;
         }
 
         /**
@@ -531,6 +534,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
             if (!this.hasNext()) {
                 throw new NoSuchElementException();
             }
+            removable = true;
             this.index++;
             this.currentEntry = this.internalListIterator.next();
             return this.currentEntry;
@@ -579,24 +583,27 @@ public class BSTMap<K extends Comparable<? super K>, V>
 //             }
 // =======
             
+            if (this.removable) {
+                // this.internalListIterator.remove();
+                
+                K keyToRemove = this.currentEntry.getKey();
+                BSTMap.this.remove(keyToRemove);
 
 
-            // this.internalListIterator.remove();
-            
-            K keyToRemove = this.currentEntry.getKey();
-            BSTMap.this.remove(keyToRemove);
+                this.internalList = BSTMap.this.inOrder();
+                this.internalListIterator = this.internalList.iterator();
+                this.iteratorModCounter = BSTMap.this.modCounter;
+                
+                int reallignmentSteps = this.index - 1;
+                this.index = 0;
+                System.out.println("Realligning to inOrder");
+                for (int i = 0; i < reallignmentSteps; i++) {
+                    this.next();
+                }
+                this.removable = false
 
-
-            this.internalList = BSTMap.this.inOrder();
-            this.internalListIterator = this.internalList.iterator();
-            this.iteratorModCounter = BSTMap.this.modCounter;
-            
-            int reallignmentSteps = this.index - 1;
-            this.index = 0;
-            System.out.println("Realligning to inOrder");
-            for (int i = 0; i < reallignmentSteps; i++) {
-                this.next();
             }
+
 
             
 // >>>>>>> 589aecdad738fc8d484e8b05255bffd931cf9b9f
