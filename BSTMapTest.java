@@ -354,6 +354,14 @@ public class BSTMapTest {
         assertEquals(entries, e4.entries());
     }
 
+
+    @Test
+    public void testInOrder() {
+        BSTMap<Integer, String> emMap = new BSTMap<Integer, String>();
+        Iterable<Map.Entry<Integer, String>> emList = new Iterable<Map.Entry<Integer, String>>();
+        assertEquals(emList, emMap.inOrder());
+    }
+
     @Test
     public void testRemoveAll() {
         int size = all.size();
