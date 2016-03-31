@@ -556,6 +556,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
             BSTMap.this.remove(keyToRemove);
 
             this.iteratorModCounter = BSTMap.this.modCounter;
+            System.out.println(BSTMap.this);
         }
 
         /**
