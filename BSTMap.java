@@ -585,6 +585,8 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
             this.internalList = BSTMap.this.inOrder();
             this.internalListIterator = this.internalList.iterator();
+            this.iteratorModCounter = BSTMap.this.modCounter;
+            
             for (int i = 0; i < index; i++) {
                 this.next();
             }
@@ -592,7 +594,6 @@ public class BSTMap<K extends Comparable<? super K>, V>
             
 // >>>>>>> 589aecdad738fc8d484e8b05255bffd931cf9b9f
 
-            this.iteratorModCounter = BSTMap.this.modCounter;
         }
 
         /**
