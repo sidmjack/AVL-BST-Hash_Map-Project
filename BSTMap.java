@@ -520,8 +520,11 @@ public class BSTMap<K extends Comparable<? super K>, V>
          * @return New current node (next node in structure).
          * @throws ConcurrentModificationException : Invalidates the iterator 
          * if outer operation changes the tree structure.
+         * @throws NoSuchElementException : Let's us know if there's no such
+         * element...
          */
-        public Map.Entry<K, V> next() throws ConcurrentModificationException, NoSuchElementException {
+        public Map.Entry<K, V> next() throws ConcurrentModificationException,
+            NoSuchElementException {
             if (!this.iteratorStillValid()) {
                 throw new ConcurrentModificationException();
             }
@@ -566,7 +569,8 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
 //                 if (this.twoAgoEntry != null) {
 //                     while (this.hasNext()
-//                     && !this.next().getKey().equals(this.lastEntry.getKey())) {
+//                     && !this.next().getKey().
+//                     equals(this.lastEntry.getKey())) {
 
 //                     }
 //                 }
