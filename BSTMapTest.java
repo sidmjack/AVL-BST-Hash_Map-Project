@@ -92,8 +92,9 @@ public class BSTMapTest {
         }
 
         entries = new HashSet<BSTMap<Integer,String>.BNode<Integer,String>>();
+        BSTMap<Integer, String> temp = new BSTMap<Integer, String>();
         for (int i=0; i < iray.length; i++) {
-            pair = new BSTMap<Integer,String>.BNode<Integer,String>(iray[i],sray[i]);
+            pair = temp.new BNode<Integer,String>(iray[i],sray[i]);
             entries.add(pair);
         }
     }
@@ -206,12 +207,13 @@ public class BSTMapTest {
         HashSet<Integer> keys = new HashSet<Integer>();
         ArrayList<String> vals = new ArrayList<String>();
         HashSet<BSTMap<Integer,String>.BNode<Integer,String>> pairs = new HashSet<BSTMap<Integer,String>.BNode<Integer,String>>();
+        BSTMap<Integer, String> temp = new BSTMap<Integer, String>();
         for (int i=0; i < iray.length; i++) {
             assertNull(e7.put(iray[i],sray[i]));  // new key
             // printBSTMap(e7); //print the entirety of the hashmap
             keys.add(iray[i]);
             vals.add(sray[i]);
-            pairs.add(new BSTMap<Integer,String>.BNode<Integer,String>(iray[i],sray[i]));
+            pairs.add( temp.new BNode<Integer,String>(iray[i],sray[i]));
             assertEquals(keys, e7.keys());
             assertTrue(sameCollection(e7.values(),vals));
             assertEquals(pairs, e7.entries());
@@ -225,7 +227,7 @@ public class BSTMapTest {
             assertEquals(sray[i], e7.get(key));
             keys.add(key);  // no dups
             vals.add(sray[i]);  // yes dups
-            pairs.add(new BSTMap<Integer,String>.BNode<Integer,String>(key,sray[i]));
+            pairs.add(temp.new BNode<Integer,String>(key,sray[i]));
             assertEquals(keys, e7.keys());
             assertTrue(sameCollection(e7.values(),vals));
             assertEquals(pairs, e7.entries());
@@ -239,12 +241,12 @@ public class BSTMapTest {
         }
     }
 
-    public void printBSTMap(BSTMap<Integer, String> e7) {
-    	for (BSTMap<Integer, String>.BNode<Integer, String> entry : e7) {
-    		System.out.print(entry + ", ");
-    	}
-        System.out.println("");
-    }
+    // public void printBSTMap(BSTMap<Integer, String> e7) {
+    // 	for (BSTMap<Integer, String>.BNode<Integer, String> entry : e7) {
+    // 		System.out.print(entry + ", ");
+    // 	}
+    //     System.out.println("");
+    // }
 
     @Test
     public void testPutOverwrites() {
