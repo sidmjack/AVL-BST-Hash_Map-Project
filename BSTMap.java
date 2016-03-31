@@ -333,6 +333,14 @@ public class BSTMap<K extends Comparable<? super K>, V>
     private void inOrder(BNode<K, V> curr,
         Collection<Map.Entry<K, V>> ordered) {
 
+
+        // that is, an empty tree should not fill up it's in order list
+        // if it tried to, it would pull null pointer exceptions on the
+        // babies it doesn't have
+        if (curr.isLeaf()) { 
+            return;
+        }
+
         if (!curr.left.isLeaf()) {
             this.inOrder(curr.left, ordered);
         }
