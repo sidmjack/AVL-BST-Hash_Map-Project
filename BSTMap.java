@@ -587,9 +587,10 @@ public class BSTMap<K extends Comparable<? super K>, V>
             this.internalListIterator = this.internalList.iterator();
             this.iteratorModCounter = BSTMap.this.modCounter;
             
-            this.index--;
-            
-            for (int i = 0; i < this.index; i++) {
+            int reallignmentSteps = this.index - 1;
+            this.index = 0;
+            System.out.println("Realligning to inOrder");
+            for (int i = 0; i < reallignmentSteps; i++) {
                 this.next();
             }
 
