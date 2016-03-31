@@ -103,6 +103,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
         @Override
         public boolean equals(Object o) {
+            System.out.println("Does this equal that??");
             BNode<K, V> that = null;
             try {
                 that = (BNode<K, V>) o;
