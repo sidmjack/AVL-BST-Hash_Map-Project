@@ -34,6 +34,7 @@ import java.util.AbstractMap;
 import java.util.Set;
 import java.util.Map;
 import java.util.Collection;
+import java.util.LinkedList;
 
 public class BSTMapTest {
 
@@ -358,7 +359,7 @@ public class BSTMapTest {
     @Test
     public void testInOrder() {
         BSTMap<Integer, String> emMap = new BSTMap<Integer, String>();
-        Iterable<Map.Entry<Integer, String>> emList = new Iterable<Map.Entry<Integer, String>>();
+        Iterable<Map.Entry<Integer, String>> emList = new LinkedList<Map.Entry<Integer, String>>();
         assertEquals(emList, emMap.inOrder());
     }
 
