@@ -1,3 +1,10 @@
+// Name: Lawrence Wolf-Sonkin & Sidney Jackson
+// JHU Login: lwolfso1  & sjacks85
+// Course: Data Structure (600.226.02)
+// Project: Project #3A (Basic BST Implementation)
+// Due Date: 03-27-2016
+// Last Modified: 03-28-2016
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Set;
@@ -559,7 +566,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
                 if (this.twoAgoEntry != null) {
                     while (this.hasNext()
-                        && !this.next().getKey().equals(lastEntry.getKey())) {
+                    && !this.next().getKey().equals(this.lastEntry.getKey())) {
 
                     }
                 }
@@ -609,10 +616,10 @@ public class BSTMap<K extends Comparable<? super K>, V>
      * @param startedRight true if traverse started by going right
      */
     private void getRidOfNodeForDeletion(BNode<K, V> node,
-        BNode<K, V> nodeParent, boolean startedRight ) {
+        BNode<K, V> nodeParent, boolean startedRight) {
 
         if (node.left.isLeaf() && node.right.isLeaf()) {
-            leafMeAlone(node);
+            this.leafMeAlone(node);
         } else {
             BNode<K, V> toLink;
             if (startedRight) {
