@@ -123,9 +123,8 @@ public class BSTMap<K extends Comparable<? super K>, V>
      */
     public BSTMap() {
         // empty tree is a sentinel for the root
-        this.root = new BNode<K, V>();
-        this.size = 0;
         this.modCounter = 0;
+        this.clear();
     }
 
     @Override()
@@ -135,7 +134,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
     @Override()
     public void clear() {
-        this.root = null;
+        this.root = new BNode<K, V>();
         this.size = 0;
         this.modifyWithoutIterator();
     }
