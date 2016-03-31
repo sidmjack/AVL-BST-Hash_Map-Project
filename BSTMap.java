@@ -340,9 +340,8 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *  @return an iterable list of entries ordered by keys
      */
     public Iterable<Map.Entry<K, V>> inOrder() {
-        LinkedList<Map.Entry<K, V>> ordered = new LinkedList<Map.Entry<K, V>>();
-        this.inOrder(this.root, ordered);
-        return ordered;
+        return this.inOrder(this.root);
+        
     }
     
     /**
@@ -352,10 +351,25 @@ public class BSTMap<K extends Comparable<? super K>, V>
      *                  traversal of the BSTMap
      *  @return         an iterable list of entries ordered by keys
      */
-    private void inOrder(BNode<K, V> curr,
-        Collection<Map.Entry<K, V>> ordered) {
+    private LinkedList<Map.Entry<K, V>> inOrder(BNode<K, V> curr) { //,
+        // Collection<Map.Entry<K, V>> ordered) {
+        
+        if (curr.isLeaf()) {
+             return new LinkedList<Map.Entry<K, V>>();
+         }
 
 
+        LinkedList<Map.Entry<K, V>> ordered = this.inOrder(curr.left);
+
+        ordered.add(curr);
+
+        ordered.addAll(this.inOrder(curr.right));
+
+        return ordered;
+
+
+
+/*
         // that is, an empty tree should not fill up it's in order list
         // if it tried to, it would pull null pointer exceptions on the
         // babies it doesn't have
@@ -370,6 +384,9 @@ public class BSTMap<K extends Comparable<? super K>, V>
         if (!curr.right.isLeaf()) {
             this.inOrder(curr.right, ordered);
         }
+*/
+
+
         
     }
 
