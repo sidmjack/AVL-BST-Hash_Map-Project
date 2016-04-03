@@ -563,26 +563,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
             if (!this.iteratorStillValid()) {
                 throw new ConcurrentModificationException();
             }
-// <<<<<<< HEAD
-//             // if (this.removable) {
-//                 // this.removable = false;
-//                 K keyToRemove = this.currentEntry.getKey();
-//                 BSTMap.this.remove(keyToRemove);
 
-//                 this.internalList = BSTMap.this.inOrder();
-
-//                 if (this.twoAgoEntry != null) {
-//                     while (this.hasNext()
-//                     && !this.next().getKey().
-//                     equals(this.lastEntry.getKey())) {
-
-//                     }
-//                 }
-                
-//                 this.iteratorModCounter = BSTMap.this.modCounter;
-//             }
-// =======
-            
             if (this.removable) {
                 // this.internalListIterator.remove();
                 
@@ -603,11 +584,6 @@ public class BSTMap<K extends Comparable<? super K>, V>
                 this.removable = false;
 
             }
-
-
-            
-// >>>>>>> 589aecdad738fc8d484e8b05255bffd931cf9b9f
-
         }
 
         /**
