@@ -43,8 +43,39 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
      */
     @Override()
     public V remove(K key) {
+        return remove(key, this.root).getValue();
+    }
+
+    private BNode<K, V> remove(K key, BNode<K, V> node) {
+        
+        if (node.isLeaf()) {
+            return new BNode();
+        } else if (this.left.isLeaf() ^ this.right.isLeaf()) {
+            
+        }
+    }
+
+
+    private BNode<K, V> rotate(BNode<K, V> node) {
 
     }
+
+    private BNode<K, V> singleL(BNode<K, V> node) {
+        
+    }
+
+    private BNode<K, V> singleR(BNode<K, V> node) {
+        
+    }
+
+    private BNode<K, V> doubleLR(BNode<K, V> node) {
+        
+    }
+
+    private BNode<K, V> doubleRL(BNode<K, V> node) {
+        
+    }
+
 
     /* ---------- from Iterable ---------- */
 
@@ -63,10 +94,10 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
     /**
      * AVL Iterator Class.
      */
-    private class AVLMapIterator extends BSTMap.BSTMapIterator<K, V> {
+    private class AVLMapIterator extends BSTMap<K, V>.BSTMapIterator {
         
         /**
-         * Iterator for Binary Search Tree.
+         * Iterator for AVL Tree.
          */
         AVLMapIterator() {
             super();
@@ -154,19 +185,6 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
                 nodeParent.left = toLink;
             }
         }
-    }
-    /**
-     * Transforms the node that's operated on into a leaf.
-     * @param node the node that's operated on.
-     */
-    private void leafMeAlone(BNode<K, V> node) {
-        node.right = null;
-        node.left = null;
-        node.setKey(null);
-        node.setValue(null);
-        super.leafMeAlone(node);
-
-
     }
 
 }
