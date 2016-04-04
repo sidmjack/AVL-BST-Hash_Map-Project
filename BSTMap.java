@@ -32,7 +32,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
      * @param <K> is Key.
      * @param <V> is Value.  
      */
-    public class BNode<K, V> implements Map.Entry<K, V> {
+    protected class BNode<K, V> implements Map.Entry<K, V> {
 
         /** The key of the entry (null if sentinel node). */
         private K key;
@@ -42,6 +42,8 @@ public class BSTMap<K extends Comparable<? super K>, V>
         private BNode<K, V> left;
         /** The right child of this node. */
         private BNode<K, V> right;
+        /** The height of this node. */
+        private int height;
 
         /** 
          * Create a new node with a particular key and value.
@@ -111,6 +113,30 @@ public class BSTMap<K extends Comparable<? super K>, V>
             V oldValue = this.value;
             this.value = v;
             return oldValue;
+        }
+
+        /**
+         * Transforms the node into a leaf.
+         */
+        public void leafMeAlone() {
+            this.right = null;
+            this.left = null;
+            this.setKey(null);
+            this.setValue(null);
+            this.height = 0;
+        }
+
+        public int getHeight() {
+            return this.height;
+        }
+
+        public int updateHeight() {
+            if (this.isLeaf()) {
+                this.height = 0;
+            } else {
+                this.height = Math.max(this.left.getHeight(), this.right.getHeight()) + 1;
+            }
+            return this.height;
         }
 
         /**
@@ -308,7 +334,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
         // if both children are leaves, cut off that node and make it a leaf.
         if (leftLeaf && rightLeaf) {
-            this.leafMeAlone(deleteMe);
+            deleteMe.leafMeAlone();
         } else {
             // we'll have to traverse to find the next smallest/largest value
             // to replace the removed key's node.
@@ -629,7 +655,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
         BNode<K, V> nodeParent, boolean startedRight) {
 
         if (node.left.isLeaf() && node.right.isLeaf()) {
-            this.leafMeAlone(node);
+            node.leafMeAlone();
         } else {
             BNode<K, V> toLink;
             if (startedRight) {
@@ -643,16 +669,6 @@ public class BSTMap<K extends Comparable<? super K>, V>
                 nodeParent.left = toLink;
             }
         }
-    }
-    /**
-     * Transforms the node that's operated on into a leaf.
-     * @param node the node that's operated on.
-     */
-    private void leafMeAlone(BNode<K, V> node) {
-        node.right = null;
-        node.left = null;
-        node.setKey(null);
-        node.setValue(null);
     }
     /**
      * Simply offer's method to print string of list.
