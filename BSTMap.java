@@ -140,6 +140,19 @@ public class BSTMap<K extends Comparable<? super K>, V>
             return this.height;
         }
 
+        public int balanceFactor() {
+            if (this.isLeaf()) {
+                return 0;
+            } else {
+                return this.left.getHeight() - this.right.getHeight();
+            }
+        }
+
+        public boolean isBalanced() {
+            int bf = this.balanceFactor();
+            return -1 <= bf && bf <= 1;
+        }
+
         /**
          * Offers a function to transform node into string.
          * @return Returns string node.
@@ -518,7 +531,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
     /**
      * BST Iterator Class.
      */
-    private class BSTMapIterator implements Iterator<Map.Entry<K, V>> {
+    protected class BSTMapIterator implements Iterator<Map.Entry<K, V>> {
         
         /** Internal List of Nodes. */
         private LinkedList<Map.Entry<K, V>> internalList;
