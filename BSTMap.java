@@ -55,6 +55,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
             this.value = v;
             this.left = null;
             this.right = null;
+            this.height = 0;
         }
 
         /**
