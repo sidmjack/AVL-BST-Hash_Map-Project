@@ -55,24 +55,75 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         }
     }
 
-
+    /**
+     * Function to choose and operate the proper rotation to rebalance a node
+     * @param  node node to rotate in order to fix balace of that node
+     * @return      the new root of this subtree
+     */
     private BNode<K, V> rotate(BNode<K, V> node) {
-
+        final int bf = node.balanceFactor();
+        if (node.isLeaf() || node.isBalanced()) {
+            return node;
+        } else if (bf <= -2) { // right heavy
+            final int rightBf = node.right.balanceFactor();
+            if (rightBf >= 2) { // right subtree left-heavy
+                return this.doubleLR(node);
+            } else { // right subtree right-heavy
+                return this.singleL(node);
+            }
+        } else { // left heavy
+            final int leftBf = node.left.balanceFactor();
+            if (leftBf <= -2) { //left subtree right-heavy
+                return this.doubleRL(node);
+            } else { // left subtree left-heavy
+                return this.singleR(node);
+            }
+        }
     }
 
     private BNode<K, V> singleL(BNode<K, V> node) {
-        
+        BNode<K, V> s = node;
+        BNode<K, V> c = node.right;
+        BNode<K, V> x = node.left;
+        BNode<K, V> a = x.left;
+        BNode<K, V> b = x.right;
+        s.left = b;
+        s.right = c;
+        x.left = a;
+        x.right = s;
+
+        s.updateHeight();
+        x.updateHeight();
+
+        return x;
     }
 
     private BNode<K, V> singleR(BNode<K, V> node) {
+        BNode<K, V> s = node;
+        BNode<K, V> a = node.left;
+        BNode<K, V> x = node.right;
+        BNode<K, V> b = x.left;
+        BNode<K, V> c = x.right;
+
+        s.left = a;
+        s.right = b;
+        x.left = s;
+        x.right = c;
+
+        s.updateHeight();
+        x.updateHeight();
         
+        return x;
     }
 
     private BNode<K, V> doubleLR(BNode<K, V> node) {
-        
+        node.left = this.singleL(node.left);
+        return this.singleR(node);
     }
 
     private BNode<K, V> doubleRL(BNode<K, V> node) {
+        node.right = this.singleR(node.right);
+        return this.singleL(node);
         
     }
 
