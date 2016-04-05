@@ -35,15 +35,15 @@ public class BSTMap<K extends Comparable<? super K>, V>
     protected class BNode<K, V> implements Map.Entry<K, V> {
 
         /** The key of the entry (null if sentinel node). */
-        private K key;
+        protected K key;
         /** The value of the entry (null if sentinel node). */
-        private V value;
+        protected V value;
         /** The left child of this node. */
-        private BNode<K, V> left;
+        protected BNode<K, V> left;
         /** The right child of this node. */
-        private BNode<K, V> right;
+        protected BNode<K, V> right;
         /** The height of this node. */
-        private int height;
+        protected int height;
 
         /** 
          * Create a new node with a particular key and value.
