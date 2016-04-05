@@ -10,6 +10,7 @@ import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
 import java.util.Map;
 import java.util.Iterator;
+import java.Math.abs;
 
 
 /** 
@@ -30,10 +31,59 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
      */
     @Override()
     public V put(K key, V val) {
-
-
+        super.put(key, val);
+        BNode<K, V> b = imBalanced();
+        this.root = rotate(b);
     }
 
+    /**
+     * Returns the first encountered imbalanced node in an AVL tree
+     * @return bNode (first imbalanced node in tree).
+     */
+    public BNode<K, V> imBalanced() {
+        BNode<K, V> b = this.root;
+        return imBalanced(b);
+    }
+
+    /**
+     * Recursively searches for the first incidence of an imbalanced node.
+     * @param  bNode : Node checked for imbalance.
+     * @return Imbalanced node, or "empty" node if not found.
+     */
+    public BNode<K, V> imBalanced(BNode<K, V> bNode) {
+        BNode<K, V> b;
+        // Return an Empty BNode if bottom of AVLTree is reached.
+        if (bNode == null || bNode.isLeaf() == true) {
+            return new BNode(); //Assuming this has a height of 0.
+        // Else, keep searching until bottom of AVLTree is reached,
+        // or until an imbalanced node is found.
+        } else {             
+            //Check to see if Current Node is Imbalanced.
+            if (Math.abs(bNode.balanceFactor()) > 1) {
+                return bNode;  
+            //If current node isn't imbalanced, check children for imbalance.
+            } else {
+                BNode<K, V> nodeA, nodeB; 
+                nodeA = imBalanced(bNode.left);
+                nodeB = imBalanced(bNode.right);
+                // Not sure if this even needs to be checked???
+                if (Math.abs(nodeA.balanceFactor()) > 1 &&
+                    Math.abs(nodeB.balanceFactor()) > 1) {
+                    if (nodeA.height > nodeB.height) {
+                        return nodeA;
+                    } else {
+                        return nodeB;
+                    }
+                } else if (Math.abs(nodeA.balanceFactor()) > 1) {
+                    return nodeA;
+                } else if (Math.abs(nodeB.balanceFactor()) > 1) {
+                    return nodeB;
+                } else {
+                    return new BNode();
+                }
+            }
+        }
+    }
 
     /** 
      * Remove entry with specified key from subtree with given root node.
