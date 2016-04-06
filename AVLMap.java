@@ -10,7 +10,7 @@ import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
 import java.util.Map;
 import java.util.Iterator;
-import java.Math.abs;
+// import java.Math.abs;
 
 
 /** 
@@ -42,8 +42,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
      *  @param curr the root of the subtree into which to put the entry
      *  @return original value associated with the key, or null if not found
      */
-    @Override()
-    public V put(BNode<K,V> currNode, K key, V val) {
+    private V put(BNode<K,V> currNode, K key, V val) {
         V tempVal;
         
         // Check Actual Node: 
@@ -99,15 +98,59 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
      */
     @Override()
     public V remove(K key) {
+        this.modifyWithoutIterator();
         return remove(key, this.root).getValue();
+
     }
 
     private BNode<K, V> remove(K key, BNode<K, V> node) {
-        
+        BNode<K, V> nodeToReturn;
         if (node.isLeaf()) {
-            return new BNode();
-        } else if (this.left.isLeaf() ^ this.right.isLeaf()) {
+            return node;
+        } else if (key.compareTo(node.getKey()) > 0) {
+            nodeToReturn = this.remove(key, node.right);
+        } else if (key.compareTo(node.getKey()) < 0) {
+            nodeToReturn = this.remove(key, node.left);
+        } else {
+            nodeToReturn = node;
             
+
+
+        }
+
+        return this.rotate(nodeToReturn);
+
+    }
+
+    private BNode<K, V> removeHelperSwitch(BNode<K, V> node, boolean firstIt, boolean leftStart, BNode<K, V> deleteMe) {
+        boolean goLeft = (firstIt == leftStart);
+        BNode<K, V> placeToGo;
+        BNode<K, V> placeNextDoor;
+        if (goLeft) {
+            placeToGo = node.left;
+            placeNextDoor = node.right;
+        } else {
+            placeToGo = node.right;
+            placeNextDoor = node.left;
+        }
+
+
+        if (!placeToGo.isLeaf()) {
+            BNode<K, V> child = removeHelperSwitch(placeToGo, false, leftStart, deleteMe);
+            
+            if (goLeft) {
+                node.left = child;
+            } else {
+                node.right = child;
+            }
+
+            node.updateHeight();
+            return this.rotate(node);
+
+        } else {
+            deleteMe.setKey(node.getKey());
+            deleteMe.setValue(node.getValue());
+            return placeNextDoor;
         }
     }
 
@@ -221,7 +264,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         public Map.Entry<K, V> next() throws ConcurrentModificationException,
             NoSuchElementException {
 
-            super.next();
+            return super.next();
         }
 
 
@@ -232,7 +275,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
          * if outer operation changes structure of tree.
          */
         public boolean hasNext() throws ConcurrentModificationException {
-            super.hasNext();
+            return super.hasNext();
         }
 
 
@@ -267,30 +310,20 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         }
         return curr;
     }
-    /**
-     * Gets rid of a node for deletion by linking parents to children
-     * or turning a childless sad node into a leaf.
-     * @param node the node that's operated on.
-     * @param nodeParent parent of the node operated on
-     * @param startedRight true if traverse started by going right
-     */
-    private void getRidOfNodeForDeletion(BNode<K, V> node,
-        BNode<K, V> nodeParent, boolean startedRight) {
 
-        if (node.left.isLeaf() && node.right.isLeaf()) {
-            this.leafMeAlone(node);
+    public void print() {
+        this.print(this.root);
+    }
+
+    public void print(BNode<K, V> node) {
+        if (node.isLeaf()) {
+            return;
         } else {
-            BNode<K, V> toLink;
-            if (startedRight) {
-                toLink = node.right;
-            } else {
-                toLink = node.left;
-            }
-            if (nodeParent.right == node) {
-                nodeParent.right = toLink;
-            } else {
-                nodeParent.left = toLink;
-            }
+            System.out.print("{");
+            this.print(node.left);
+            System.out.print(node);
+            this.print(node.right);
+            System.out.print("}");
         }
     }
 
