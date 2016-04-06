@@ -20,7 +20,10 @@ import java.util.Iterator;
  */
 public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
-
+    /**
+     * the last node removed from the remove function.
+     */
+    private V lastValueRemoved;
 
     /** 
      *  Put <key,value> entry into subtree with given root node.
@@ -97,29 +100,57 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
     @Override()
     public V remove(K key) {
         this.modifyWithoutIterator();
-        return remove(key, this.root).getValue();
+        this.root = remove(key, this.root);
+        return this.lastValueRemoved;
 
     }
 
+    /**
+     * Removes 
+     * @param  key  [description]
+     * @param  node [description]
+     * @return      [description]
+     */
     private BNode<K, V> remove(K key, BNode<K, V> node) {
         BNode<K, V> nodeToReturn;
         if (node.isLeaf()) {
+            this.lastValueRemoved = null;
             return node;
         } else if (key.compareTo(node.getKey()) > 0) {
-            nodeToReturn = this.remove(key, node.right);
+            node.right = this.remove(key, node.right);
         } else if (key.compareTo(node.getKey()) < 0) {
-            nodeToReturn = this.remove(key, node.left);
+            node.left = this.remove(key, node.left);
         } else {
-            nodeToReturn = node;
             
+            boolean leftLeaf = node.left.isLeaf();
+            boolean rightLeaf = node.right.isLeaf();
+
+
+            boolean leftStart = rightLeaf;
+            this.lastValueRemoved = node.getValue();
+            node = removeHelperSwitch(node, true, leftStart, node);
 
 
         }
 
-        return this.rotate(nodeToReturn);
+        node.updateHeight();
+
+
+        return this.rotate(node);
 
     }
 
+    /**
+     * Traverses down the tree to find the next smallest or largest key and
+     * swaps the values betweent the node to delete and the next smallest or
+     * largest key
+     * @param  node      node that's currently being worked on
+     * @param  firstIt   true if the first iteration of removeHelperSwitch
+     *                   false otherwise
+     * @param  leftStart true if traverse starts going left, false else
+     * @param  deleteMe  node that's going to be deleted from the AVLMap
+     * @return           Returns the subtree following this removal
+     */
     private BNode<K, V> removeHelperSwitch(BNode<K, V> node, boolean firstIt, boolean leftStart, BNode<K, V> deleteMe) {
         boolean goLeft = (firstIt == leftStart);
         BNode<K, V> placeToGo;
@@ -131,7 +162,6 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
             placeToGo = node.right;
             placeNextDoor = node.left;
         }
-
 
         if (!placeToGo.isLeaf()) {
             BNode<K, V> child = removeHelperSwitch(placeToGo, false, leftStart, deleteMe);
