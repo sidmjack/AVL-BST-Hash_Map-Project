@@ -75,7 +75,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
                 tempVal = put(currNode.right, key, val);
                 putNodeUpdate(currNode); 
                 return tempVal; 
-            }
+            
         }
 
         return tempVal; // <- Mostly here just to appease Java.
