@@ -20,6 +20,12 @@ import java.util.Iterator;
  */
 public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
+
+    public AVLMap() {
+        super();
+    }
+
+
     /**
      * the last node removed from the remove function.
      */
