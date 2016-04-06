@@ -205,6 +205,19 @@ return tempVal; // <- Mostly here just to appease Java.
         }
     }
 
+    public AVLMap<K, V> subMap(K fromKey, K toKey) {
+        AVLMap<K, V> tree = new AVLMap<K, V>();
+        for (Map.Entry<K, V> entry : this.inOrder()) {
+            if (entry.getKey().compareTo(fromKey) >= 0
+                && entry.getKey().compareTo(toKey) <= 0) {
+                tree.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return tree;
+    }
+
+
+
     /**
      * Function to choose and operate the proper rotation to rebalance a node
      * @param  node node to rotate in order to fix balace of that node
