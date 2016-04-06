@@ -82,7 +82,8 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
     }
 
     public void putLeaf(BNode<K,V> currNode, K key, V val) {
-        currNode = new BNode<K,V>(key, val);
+        currNode.setKey(key);
+        currNode.setValue(val);
         currNode.left = new BNode<K,V>();
         currNode.right = new BNode<K,V>();
         size++;
@@ -109,13 +110,12 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
     }
 
     /**
-     * Removes 
-     * @param  key  [description]
-     * @param  node [description]
-     * @return      [description]
+     * Removes the node with the given key from the AVLTree
+     * @param  key  key to remove
+     * @param  node part of subtree to look through
+     * @return      resultant subtree after the removal
      */
     private BNode<K, V> remove(K key, BNode<K, V> node) {
-        BNode<K, V> nodeToReturn;
         if (node.isLeaf()) {
             this.lastValueRemoved = null;
             return node;
@@ -137,7 +137,6 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         }
 
         node.updateHeight();
-
 
         return this.rotate(node);
 
@@ -196,14 +195,14 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
             return node;
         } else if (bf <= -2) { // right heavy
             final int rightBf = node.right.balanceFactor();
-            if (rightBf >= 2) { // right subtree left-heavy
+            if (rightBf > 0) { // right subtree left-heavy
                 return this.doubleLR(node);
             } else { // right subtree right-heavy
                 return this.singleL(node);
             }
         } else { // left heavy
             final int leftBf = node.left.balanceFactor();
-            if (leftBf <= -2) { //left subtree right-heavy
+            if (leftBf < 0) { //left subtree right-heavy
                 return this.doubleRL(node);
             } else { // left subtree left-heavy
                 return this.singleR(node);
