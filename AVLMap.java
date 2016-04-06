@@ -354,4 +354,12 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         }
     }
 
+    public int getHeight() {
+        return this.root.getHeight();
+    }
+
+    public int getBalance() {
+        return this.root.balanceFactor();
+    }
+
 }
