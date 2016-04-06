@@ -186,9 +186,9 @@ public class BSTMap<K extends Comparable<? super K>, V>
 
 
     /** The root of this tree. */
-    private BNode<K, V> root;
+    protected BNode<K, V> root;
     /** The number of entries in this map (== non-sentinel nodes). */
-    private int size;
+    protected int size;
 
     /**
      * A semi-arbitrary counter that is incremented every time one of the
