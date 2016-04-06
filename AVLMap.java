@@ -46,50 +46,50 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
      *  @return original value associated with the key, or null if not found
      */
     private V put(BNode<K,V> currNode, K key, V val) {
-        V tempVal;
-        
-        // Check Actual Node: 
+        V tempVal = null;
+        // Check Current Node: 
         if (currNode.getKey().equals(key)) {
-            currNode.val = val;
-            return val;
-        }
-        
-        // Check Left Child:
-        if (currNode.getKey() > key) {
+            tempVal = currNode.value;
+            currNode.value = val;
+            return tempVal;
+        }     
+        // Check Current Node's Left Child:
+        if (currNode.getKey().compareTo(key) > 0) {
             if (currNode.left.isLeaf()) { 
-                currNode.left = BNode(key, val);
-                currNode.left.left = new BNode();
-                currNode.left.right = new BNode();
-                currNode = rotate(currNode); // Iffy 
-                currNode.updateHeight();
-                size++;
-                return val;
+                putLeaf(currNode.left, key, val);
+                putNodeUpdate(currNode);
             } else {
                 tempVal = put(currNode.left, key, val);
-                currNode.updateHeight();
-                currNode = rotate(currNode);
-                return tempVal; 
+                putNodeUpdate(currNode);
+                return tempVal;
             }
-        }
-        
-        // Check Right Child:
-        if (currNode.getKey() < key) {
+        }  
+        // Check Current Node's Right Child:
+        if (currNode.getKey().compareTo(key) < 0) {
             if (currNode.right.isLeaf()) {
-                currNode.right = BNode(key, val);
-                currNode.right.left = new BNode();
-                currNode.right.right = new BNode();        
-                currNode.updateHeight();
-                currNode = rotate(currNode);
-                size++;
-                return val;
+                putLeaf(currNode.right, key, val);       
+                putNodeUpdate(currNode);
             } else {
                 tempVal = put(currNode.right, key, val);
-                currNode = rotate(currNode);
-                currNode.updateHeight();
+                putNodeUpdate(currNode); 
                 return tempVal; 
             }
         }
+        return tempVal; // <- Mostly here just to appease Java.
     }
+
+    public void putLeaf(BNode<K,V> currNode, K key, V val) {
+        currNode = new BNode<K,V>(key, val);
+        currNode.left = new BNode<K,V>();
+        currNode.right = new BNode<K,V>();
+        size++;
+    }
+
+    public void putNodeUpdate(BNode<K,V> currNode) {
+        currNode = rotate(currNode);
+        currNode.updateHeight();
+    }
+
 
     /** 
      * Remove entry with specified key from subtree with given root node.
