@@ -106,10 +106,10 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
     }
 
     /**
-     * Removes 
-     * @param  key  [description]
-     * @param  node [description]
-     * @return      [description]
+     * Removes the node with the given key from the AVLTree
+     * @param  key  key to remove
+     * @param  node part of subtree to look through
+     * @return      resultant subtree after the removal
      */
     private BNode<K, V> remove(K key, BNode<K, V> node) {
         BNode<K, V> nodeToReturn;
