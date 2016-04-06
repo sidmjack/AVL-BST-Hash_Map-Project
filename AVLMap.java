@@ -47,11 +47,11 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         
         // Check Actual Node: 
         if (currNode.getKey().equals(key)) {
-            currNode.val = val;
+            currNode.value = val;
             return val;
         }     
         // Check Left Child:
-        if (currNode.getKey() > key) {
+        if (currNode.getKey().compareTo(key) > 0) {
             if (currNode.left.isLeaf()) { 
                 putLeaf(currNode.left, key, val);
                 putNodeUpdate(currNode);
@@ -64,7 +64,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
             }
         }  
         // Check Right Child:
-        if (currNode.getKey() < key) {
+        if (currNode.getKey().compareTo(key) < 0) {
             if (currNode.right.isLeaf()) {
                 putLeaf(currNode.right, key, val);       
                 putNodeUpdate(currNode);
@@ -76,12 +76,13 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
                 return tempVal; 
             }
         }
+        return val; // <- Here to Appease Java.
     }
 
     public void putLeaf(BNode<K,V> currNode, K key, V val) {
-        currNode = BNode(key, val);
-        currNode.left = new BNode();
-        currNode.right = new BNode();
+        currNode = new BNode<K,V>(key, val);
+        currNode.left = new BNode<K,V>();
+        currNode.right = new BNode<K,V>();
     }
 
     public void putNodeUpdate(BNode<K,V> currNode) {
