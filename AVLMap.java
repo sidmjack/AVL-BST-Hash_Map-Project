@@ -43,46 +43,43 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
      *  @return original value associated with the key, or null if not found
      */
     private V put(BNode<K,V> currNode, K key, V val) {
-        V tempVal;
-        
-        // Check Actual Node: 
+        V tempVal = null;
+        // Check Current Node: 
         if (currNode.getKey().equals(key)) {
+            tempVal = currNode.value;
             currNode.value = val;
-            return val;
+            return tempVal;
         }     
-        // Check Left Child:
+        // Check Current Node's Left Child:
         if (currNode.getKey().compareTo(key) > 0) {
             if (currNode.left.isLeaf()) { 
                 putLeaf(currNode.left, key, val);
                 putNodeUpdate(currNode);
-                size++;
-                return val;
             } else {
                 tempVal = put(currNode.left, key, val);
                 putNodeUpdate(currNode);
-                return tempVal; 
+                return tempVal;
             }
         }  
-        // Check Right Child:
+        // Check Current Node's Right Child:
         if (currNode.getKey().compareTo(key) < 0) {
             if (currNode.right.isLeaf()) {
                 putLeaf(currNode.right, key, val);       
                 putNodeUpdate(currNode);
-                size++;
-                return val;
             } else {
                 tempVal = put(currNode.right, key, val);
-                putNodeUpdate(currNode);   
+                putNodeUpdate(currNode); 
                 return tempVal; 
             }
         }
-        return val; // <- Here to Appease Java.
+        return tempVal; // <- Mostly here just to appease Java.
     }
 
     public void putLeaf(BNode<K,V> currNode, K key, V val) {
         currNode = new BNode<K,V>(key, val);
         currNode.left = new BNode<K,V>();
         currNode.right = new BNode<K,V>();
+        size++;
     }
 
     public void putNodeUpdate(BNode<K,V> currNode) {
