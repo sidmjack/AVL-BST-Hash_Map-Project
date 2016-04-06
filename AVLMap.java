@@ -10,7 +10,7 @@ import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
 import java.util.Map;
 import java.util.Iterator;
-import java.Math.abs;
+// import java.Math.abs;
 
 
 /** 
@@ -38,7 +38,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
     /**
      * Returns the first encountered imbalanced node in an AVL tree
-     * @return bNode (first imbalanced node in tree).
+     * @return node (first imbalanced node in tree).
      */
     public BNode<K, V> imBalanced() {
         BNode<K, V> b = this.root;
@@ -47,25 +47,25 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
     /**
      * Recursively searches for the first incidence of an imbalanced node.
-     * @param  bNode : Node checked for imbalance.
+     * @param  node : Node checked for imbalance.
      * @return Imbalanced node, or "empty" node if not found.
      */
-    public BNode<K, V> imBalanced(BNode<K, V> bNode) {
+    public BNode<K, V> imBalanced(BNode<K, V> node) {
         BNode<K, V> b;
         // Return an Empty BNode if bottom of AVLTree is reached.
-        if (bNode == null || bNode.isLeaf() == true) {
+        if (node == null || node.isLeaf() == true) {
             return new BNode(); //Assuming this has a height of 0.
         // Else, keep searching until bottom of AVLTree is reached,
         // or until an imbalanced node is found.
         } else {             
             //Check to see if Current Node is Imbalanced.
-            if (Math.abs(bNode.balanceFactor()) > 1) {
-                return bNode;  
+            if (Math.abs(node.balanceFactor()) > 1) {
+                return node;  
             //If current node isn't imbalanced, check children for imbalance.
             } else {
                 BNode<K, V> nodeA, nodeB; 
-                nodeA = imBalanced(bNode.left);
-                nodeB = imBalanced(bNode.right);
+                nodeA = imBalanced(node.left);
+                nodeB = imBalanced(node.right);
                 // Not sure if this even needs to be checked???
                 if (Math.abs(nodeA.balanceFactor()) > 1 &&
                     Math.abs(nodeB.balanceFactor()) > 1) {
@@ -93,15 +93,59 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
      */
     @Override()
     public V remove(K key) {
+        this.modifyWithoutIterator();
         return remove(key, this.root).getValue();
+
     }
 
     private BNode<K, V> remove(K key, BNode<K, V> node) {
-        
+        BNode<K, V> nodeToReturn;
         if (node.isLeaf()) {
-            return new BNode();
-        } else if (this.left.isLeaf() ^ this.right.isLeaf()) {
+            return node;
+        } else if (key.compareTo(node.getKey()) > 0) {
+            nodeToReturn = this.remove(key, node.right);
+        } else if (key.compareTo(node.getKey()) < 0) {
+            nodeToReturn = this.remove(key, node.left);
+        } else {
+            nodeToReturn = node;
             
+
+
+        }
+
+        return this.rotate(nodeToReturn);
+
+    }
+
+    private BNode<K, V> removeHelperSwitch(BNode<K, V> node, boolean firstIt, boolean leftStart, BNode<K, V> deleteMe) {
+        boolean goLeft = (firstIt == leftStart);
+        BNode<K, V> placeToGo;
+        BNode<K, V> placeNextDoor;
+        if (goLeft) {
+            placeToGo = node.left;
+            placeNextDoor = node.right;
+        } else {
+            placeToGo = node.right;
+            placeNextDoor = node.left;
+        }
+
+
+        if (!placeToGo.isLeaf()) {
+            BNode<K, V> child = removeHelperSwitch(placeToGo, false, leftStart, deleteMe);
+            
+            if (goLeft) {
+                node.left = child;
+            } else {
+                node.right = child;
+            }
+
+            node.updateHeight();
+            return this.rotate(node);
+
+        } else {
+            deleteMe.setKey(node.getKey());
+            deleteMe.setValue(node.getValue());
+            return placeNextDoor;
         }
     }
 
@@ -215,7 +259,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         public Map.Entry<K, V> next() throws ConcurrentModificationException,
             NoSuchElementException {
 
-            super.next();
+            return super.next();
         }
 
 
@@ -226,7 +270,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
          * if outer operation changes structure of tree.
          */
         public boolean hasNext() throws ConcurrentModificationException {
-            super.hasNext();
+            return super.hasNext();
         }
 
 
@@ -261,30 +305,20 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         }
         return curr;
     }
-    /**
-     * Gets rid of a node for deletion by linking parents to children
-     * or turning a childless sad node into a leaf.
-     * @param node the node that's operated on.
-     * @param nodeParent parent of the node operated on
-     * @param startedRight true if traverse started by going right
-     */
-    private void getRidOfNodeForDeletion(BNode<K, V> node,
-        BNode<K, V> nodeParent, boolean startedRight) {
 
-        if (node.left.isLeaf() && node.right.isLeaf()) {
-            this.leafMeAlone(node);
+    public void print() {
+        this.print(this.root);
+    }
+
+    public void print(BNode<K, V> node) {
+        if (node.isLeaf()) {
+            return;
         } else {
-            BNode<K, V> toLink;
-            if (startedRight) {
-                toLink = node.right;
-            } else {
-                toLink = node.left;
-            }
-            if (nodeParent.right == node) {
-                nodeParent.right = toLink;
-            } else {
-                nodeParent.left = toLink;
-            }
+            System.out.print("{");
+            this.print(node.left);
+            System.out.print(node);
+            this.print(node.right);
+            System.out.print("}");
         }
     }
 
