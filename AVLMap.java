@@ -386,4 +386,10 @@ return tempVal; // <- Mostly here just to appease Java.
         return this.root.balanceFactor();
     }
 
+
+    public int getBalance(BNode<K, V> node) {
+        return node.balanceFactor();
+    }
+
+
 }
