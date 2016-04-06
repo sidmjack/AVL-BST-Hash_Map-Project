@@ -31,56 +31,59 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
      */
     @Override()
     public V put(K key, V val) {
-        super.put(key, val);
-        BNode<K, V> b = imBalanced();
-        this.root = rotate(b);
+        this.modifyWithoutIterator();
+        return put(this.root ,key, val);
     }
 
-    /**
-     * Returns the first encountered imbalanced node in an AVL tree
-     * @return node (first imbalanced node in tree).
+    /** 
+     *  Put <key,value> entry into subtree with given root node.
+     *  @param key the key of the entry
+     *  @param val the value of the entry
+     *  @param curr the root of the subtree into which to put the entry
+     *  @return original value associated with the key, or null if not found
      */
-    public BNode<K, V> imBalanced() {
-        BNode<K, V> b = this.root;
-        return imBalanced(b);
-    }
-
-    /**
-     * Recursively searches for the first incidence of an imbalanced node.
-     * @param  node : Node checked for imbalance.
-     * @return Imbalanced node, or "empty" node if not found.
-     */
-    public BNode<K, V> imBalanced(BNode<K, V> node) {
-        BNode<K, V> b;
-        // Return an Empty BNode if bottom of AVLTree is reached.
-        if (node == null || node.isLeaf() == true) {
-            return new BNode(); //Assuming this has a height of 0.
-        // Else, keep searching until bottom of AVLTree is reached,
-        // or until an imbalanced node is found.
-        } else {             
-            //Check to see if Current Node is Imbalanced.
-            if (Math.abs(node.balanceFactor()) > 1) {
-                return node;  
-            //If current node isn't imbalanced, check children for imbalance.
+    private V put(BNode<K,V> currNode, K key, V val) {
+        V tempVal;
+        
+        // Check Actual Node: 
+        if (currNode.getKey().equals(key)) {
+            currNode.val = val;
+            return val;
+        }
+        
+        // Check Left Child:
+        if (currNode.getKey() > key) {
+            if (currNode.left.isLeaf()) { 
+                currNode.left = BNode(key, val);
+                currNode.left.left = new BNode();
+                currNode.left.right = new BNode();
+                currNode = rotate(currNode); // Iffy 
+                currNode.updateHeight();
+                size++;
+                return val;
             } else {
-                BNode<K, V> nodeA, nodeB; 
-                nodeA = imBalanced(node.left);
-                nodeB = imBalanced(node.right);
-                // Not sure if this even needs to be checked???
-                if (Math.abs(nodeA.balanceFactor()) > 1 &&
-                    Math.abs(nodeB.balanceFactor()) > 1) {
-                    if (nodeA.height > nodeB.height) {
-                        return nodeA;
-                    } else {
-                        return nodeB;
-                    }
-                } else if (Math.abs(nodeA.balanceFactor()) > 1) {
-                    return nodeA;
-                } else if (Math.abs(nodeB.balanceFactor()) > 1) {
-                    return nodeB;
-                } else {
-                    return new BNode();
-                }
+                tempVal = put(currNode.left, key, val);
+                currNode.updateHeight();
+                currNode = rotate(currNode);
+                return tempVal; 
+            }
+        }
+        
+        // Check Right Child:
+        if (currNode.getKey() < key) {
+            if (currNode.right.isLeaf()) {
+                currNode.right = BNode(key, val);
+                currNode.right.left = new BNode();
+                currNode.right.right = new BNode();        
+                currNode.updateHeight();
+                currNode = rotate(currNode);
+                size++;
+                return val;
+            } else {
+                tempVal = put(currNode.right, key, val);
+                currNode = rotate(currNode);
+                currNode.updateHeight();
+                return tempVal; 
             }
         }
     }
