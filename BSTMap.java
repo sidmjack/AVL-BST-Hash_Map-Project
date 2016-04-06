@@ -695,7 +695,7 @@ public class BSTMap<K extends Comparable<? super K>, V>
     /**
      * Increases the modification counter for use by the HashMapIterator.
      */
-    private void modifyWithoutIterator() {
+    protected void modifyWithoutIterator() {
         this.modCounter++;
     }
 
