@@ -2,9 +2,8 @@ Name: Lawrence Wolf-Sonkin & Sidney Jackson
 JHU Login: lwolfso1  & sjacks85
 Course: Data Structure (600.226.02)
 Project: Project #3A (Basic BST Implementation)
-Due Date: 03-27-2016
-Last Modified: 03-28-2016
-
+Due Date: 04-4-2016
+Last Modified: 04-4-2016
 README FILE:
 
 ******************************************************************************
@@ -13,7 +12,7 @@ README FILE:
 ******************************************************************************
 ******************************************************************************
 
-SUMMARY:
+PART 1 SUMMARY:
 
 Implementing the methods were pretty straight forward. The only two methods that 
 proved to be more difficult than expeceted were the remove function and
@@ -58,6 +57,31 @@ variables that would've made implementing an AVL Map easier. Also, there
 are a couple of areas where handling references could've been "prettier", 
 but due to time constraints we didn't spend to much time worrying over
 the style of the code (towards the end).
+
+**********************************************************************************
+
+PART 2 SUMMARY:
+Recursion is (literally) the worst (though we knew there
+was no other "cleaner" way to implement). All in all, not fans of recursion.
+Conceptually, it was easy to understand what needed to be done, but we often
+found it difficult to trace our code. 
+
+Complications:
+Recursion...and the remove function. Remove was a monster.
+We ran into some (alot of) difficulties having to do with recursion. 
+To start, our remove and put recursion functions actually return two different
+types. Each functions returns the "head", or root of the subtree, operated
+on. This came in handy when rebuilding the AVL Tree, however, for simplicty, 
+it required that we create class variables to hold the values expected to
+be output by our functions. We're sure there likely were better ways of
+handleing this, but implementation wise (and due to, again, time constraints),
+we opted for simply implementing the remove and put functions in such a way 
+that made it easier for rebuilding the AVL Tree (node by node up the recursive 
+call stack through appropriate rebalancing rotations) from the base case up.
+All in all, it works. It's probably a bit unconvential, but takes 
+
+Improvements:
+Seems fine. More comments wouldn't hurt.
 
 **********************************************************************************
 
