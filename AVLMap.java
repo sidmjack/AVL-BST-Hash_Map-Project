@@ -33,7 +33,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
 
     /**
-     * Constructor for AVLMap
+     * Constructor for AVLMap.
      */
     public AVLMap() {
         super();
@@ -232,8 +232,8 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
     /**
      * Single Right Left Rotation.
-     * @param  node.
-     * @return      node.
+     * @param  node node to rotate
+     * @return      node thing
      */
     private BNode<K, V> singleR(BNode<K, V> node) {
         BNode<K, V> s = node;
