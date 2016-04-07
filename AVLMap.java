@@ -44,7 +44,6 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
      *  Put <key,value> entry into subtree with given root node.
      *  @param key the key of the entry
      *  @param val the value of the entry
-     *  @param curr the root of the subtree into which to put the entry
      *  @return original value associated with the key, or null if not found
      */
     @Override()
