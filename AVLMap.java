@@ -216,6 +216,11 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         }
     }
 
+    /**
+     * Single Right Left Rotation.
+     * @param  node.
+     * @return      node.
+     */
     private BNode<K, V> singleR(BNode<K, V> node) {
         BNode<K, V> s = node;
         BNode<K, V> c = node.right;
@@ -233,6 +238,11 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         return x;
     }
 
+    /**
+     * Single Left Rotation.
+     * @param node.
+     * @return node.
+     */
     private BNode<K, V> singleL(BNode<K, V> node) {
         BNode<K, V> s = node;
         BNode<K, V> a = node.left;
@@ -251,11 +261,21 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         return x;
     }
 
+    /**
+     * Double Left Right Rotation.
+     * @param node.
+     * @return node.
+     */
     private BNode<K, V> doubleLR(BNode<K, V> node) {
         node.left = this.singleL(node.left);
         return this.singleR(node);
     }
-
+    
+    /**
+     * Double Right Left Rotation.
+     * @param  node [description]
+     * @return      [description]
+     */
     private BNode<K, V> doubleRL(BNode<K, V> node) {
         node.right = this.singleR(node.right);
         return this.singleL(node);
@@ -347,10 +367,17 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         return curr;
     }
 
+    /**
+     * Print Functions.
+     */
     public void print() {
         this.print(this.root);
     }
 
+    /**
+     * Prints.
+     * @param node [description].
+     */
     public void print(BNode<K, V> node) {
         if (node.isLeaf()) {
             return;
@@ -363,15 +390,27 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         }
     }
 
+    /**
+     *  Gets Height.
+     * @return height.
+     */
     public int getHeight() {
         return this.root.getHeight();
     }
 
+    /**
+     * Get Balance.
+     * @return integer.
+     */
     public int getBalance() {
         return this.root.balanceFactor();
     }
 
-
+    /**
+     * Gets Balanve.
+     * @param  node .
+     * @return      integer.
+     */
     public int getBalance(BNode<K, V> node) {
         return node.balanceFactor();
     }
