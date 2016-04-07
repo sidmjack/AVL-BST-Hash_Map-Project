@@ -160,6 +160,7 @@ return tempVal; // <- Mostly here just to appease Java.
             this.lastValueRemoved = node.getValue();
             node = removeHelperSwitch(node, true, leftStart, node);
 
+            this.size--;
 
         }
 
