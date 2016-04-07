@@ -471,43 +471,43 @@ public class AVLTreeTest {
     }
 
     // REMOVED: AVLMap iterator can't remove
-    // @Test 
-    // public void testIteratorFullRemove() {
-    //     AVLMap<Integer, String> full = new AVLMap<Integer,String>();
-    //     HashSet<AbstractMap.SimpleEntry<Integer,String>> pairs = new HashSet<AbstractMap.SimpleEntry<Integer,String>>();
-    //     int cap = 5;
-    //     // put 5 entries in to fill
-    //     for (int i=0; i < cap; i++) {
-    //         full.put(i, i+"");
-    //         pairs.add(new AbstractMap.SimpleEntry<Integer,String>(i, i+""));
-    //     }
-    //     for (Entry<Integer, String> p: full.entries()) {
-    //         assertTrue(pairs.contains(new AbstractMap.SimpleEntry<Integer, String>(p.getKey(), p.getValue())));
-    //     }
-    //     Iterator<Map.Entry<Integer, String>> it = full.iterator();
-    //     int count = cap;
-    //     int i = 0;
-    //     System.out.println(full.toString());
-    //     while (it.hasNext()) {
-    //         Map.Entry<Integer, String> tmp = it.next();
-    //         assertTrue(tmp.getKey().equals(i));
-    //         assertEquals(tmp.getValue(), i + "");
-    //         it.remove();
-    //         count--;
-    //         pairs.remove(new AbstractMap.SimpleEntry<Integer,String>(i, i+""));
-    //         assertEquals(count, full.size());
-    //         for (Entry<Integer, String> p: full.entries()) {
-    //             assertTrue(pairs.contains(new AbstractMap.SimpleEntry<Integer, String>(p.getKey(), p.getValue())));
-    //         }
-    //         i++;
-    //     }
-    //     assertEquals("iterated through all elements", 0, count);
-    //     assertEquals("removed all entries with iterator", 0, full.size());
-    //     assertEquals(0, full.entries().size());
-    //     assertEquals(0, full.keys().size());
-    //     assertEquals(0, full.values().size());
-    //     count = 0;
-    // }
+    @Test 
+    public void testIteratorFullRemove() {
+        AVLMap<Integer, String> full = new AVLMap<Integer,String>();
+        HashSet<AbstractMap.SimpleEntry<Integer,String>> pairs = new HashSet<AbstractMap.SimpleEntry<Integer,String>>();
+        int cap = 5;
+        // put 5 entries in to fill
+        for (int i=0; i < cap; i++) {
+            full.put(i, i+"");
+            pairs.add(new AbstractMap.SimpleEntry<Integer,String>(i, i+""));
+        }
+        for (Entry<Integer, String> p: full.entries()) {
+            assertTrue(pairs.contains(new AbstractMap.SimpleEntry<Integer, String>(p.getKey(), p.getValue())));
+        }
+        Iterator<Map.Entry<Integer, String>> it = full.iterator();
+        int count = cap;
+        int i = 0;
+        System.out.println(full.toString());
+        while (it.hasNext()) {
+            Map.Entry<Integer, String> tmp = it.next();
+            assertTrue(tmp.getKey().equals(i));
+            assertEquals(tmp.getValue(), i + "");
+            it.remove();
+            count--;
+            pairs.remove(new AbstractMap.SimpleEntry<Integer,String>(i, i+""));
+            assertEquals(count, full.size());
+            for (Entry<Integer, String> p: full.entries()) {
+                assertTrue(pairs.contains(new AbstractMap.SimpleEntry<Integer, String>(p.getKey(), p.getValue())));
+            }
+            i++;
+        }
+        assertEquals("iterated through all elements", 0, count);
+        assertEquals("removed all entries with iterator", 0, full.size());
+        assertEquals(0, full.entries().size());
+        assertEquals(0, full.keys().size());
+        assertEquals(0, full.values().size());
+        count = 0;
+    }
 
     @Test //ok
     public void testIteratorAllEntryTypes() {
