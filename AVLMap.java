@@ -250,7 +250,7 @@ return tempVal; // <- Mostly here just to appease Java.
         }
     }
 
-    private BNode<K, V> singleL(BNode<K, V> node) {
+    private BNode<K, V> singleR(BNode<K, V> node) {
         BNode<K, V> s = node;
         BNode<K, V> c = node.right;
         BNode<K, V> x = node.left;
@@ -267,7 +267,7 @@ return tempVal; // <- Mostly here just to appease Java.
         return x;
     }
 
-    private BNode<K, V> singleR(BNode<K, V> node) {
+    private BNode<K, V> singleL(BNode<K, V> node) {
         BNode<K, V> s = node;
         BNode<K, V> a = node.left;
         BNode<K, V> x = node.right;
