@@ -31,6 +31,9 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
      */
     private V lastValueRemoved;
 
+    /**
+     * the last node removed from the put function.
+     */
     private V lastValuePutted;
 
     /** 
@@ -46,44 +49,6 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         this.root = put(this.root ,key, val);
         return this.lastValuePutted;
     }
-/*
-
-V tempVal = null;
-// Check Current Node: 
-if (currNode.getKey().equals(key)) {
-    tempVal = currNode.value;
-    currNode.value = val;
-    return tempVal;
-}     
-
-// Check Current Node's Left Child:
-if (currNode.getKey().compareTo(key) > 0) {
-    if (currNode.left.isLeaf()) { 
-        putLeaf(currNode.left, key, val);
-        putNodeUpdate(currNode);
-    } else {
-        tempVal = put(currNode.left, key, val);
-        putNodeUpdate(currNode);
-        return tempVal;
-    }
-}  
-// Check Current Node's Right Child:
-if (currNode.getKey().compareTo(key) < 0) {
-    if (currNode.right.isLeaf()) {
-        putLeaf(currNode.right, key, val);       
-        putNodeUpdate(currNode);
-    } else {
-        tempVal = put(currNode.right, key, val);
-        putNodeUpdate(currNode); 
-        return tempVal; 
-    
-}
-
-return tempVal; // <- Mostly here just to appease Java.
-
- */
-
-
 
     /** 
      *  Put <key,value> entry into subtree with given root node.
