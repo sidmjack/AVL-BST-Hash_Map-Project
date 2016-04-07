@@ -398,7 +398,7 @@ return tempVal; // <- Mostly here just to appease Java.
     }
 
     public int getHeight() {
-        return this.root.getHeight() - 1;
+        return this.root.getHeight() + 1;
     }
 
     public int getBalance() {
