@@ -1,7 +1,7 @@
 // Name: Lawrence Wolf-Sonkin & Sidney Jackson
 // JHU Login: lwolfso1  & sjacks85
 // Course: Data Structure (600.226.02)
-// Project: Project #3A (Basic AVL Implementation)
+// Project: Project #3B (Basic AVL Implementation)
 // Due Date: 03-27-2016
 // Last Modified: 03-28-2016
 
@@ -20,12 +20,6 @@ import java.util.Iterator;
  */
 public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
-
-    public AVLMap() {
-        super();
-    }
-
-
     /**
      * the last node removed from the remove function.
      */
@@ -35,6 +29,16 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
      * the last node removed from the put function.
      */
     private V lastValuePutted;
+
+
+
+    /**
+     * Constructor for AVLMap
+     */
+    public AVLMap() {
+        super();
+    }
+
 
     /** 
      *  Put <key,value> entry into subtree with given root node.
@@ -46,7 +50,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
     @Override()
     public V put(K key, V val) {
         this.modifyWithoutIterator();
-        this.root = put(this.root ,key, val);
+        this.root = this.put(this.root, key, val);
         return this.lastValuePutted;
     }
 
@@ -57,7 +61,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
      *  @param val the value of the entry
      *  @return original value associated with the key, or null if not found
      */
-    private BNode<K, V> put(BNode<K,V> node, K key, V val) {
+    private BNode<K, V> put(BNode<K, V> node, K key, V val) {
         if (node.isLeaf()) {
             this.lastValuePutted = null;
             this.putLeaf(node, key, val);
@@ -78,11 +82,11 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         return this.rotate(node);
     }
 
-    public void putLeaf(BNode<K,V> currNode, K key, V val) {
+    public void putLeaf(BNode<K, V> currNode, K key, V val) {
         currNode.setKey(key);
         currNode.setValue(val);
-        currNode.left = new BNode<K,V>();
-        currNode.right = new BNode<K,V>();
+        currNode.left = new BNode<K, V>();
+        currNode.right = new BNode<K, V>();
         currNode.updateHeight();
         size++;
     }
@@ -96,13 +100,13 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
     @Override()
     public V remove(K key) {
         this.modifyWithoutIterator();
-        this.root = remove(key, this.root);
+        this.root = this.remove(key, this.root);
         return this.lastValueRemoved;
 
     }
 
     /**
-     * Removes the node with the given key from the AVLTree
+     * Removes the node with the given key from the AVLTree.
      * @param  key  key to remove
      * @param  node part of subtree to look through
      * @return      resultant subtree after the removal
@@ -123,7 +127,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
             boolean leftStart = rightLeaf;
             this.lastValueRemoved = node.getValue();
-            node = removeHelperSwitch(node, true, leftStart, node);
+            node = this.removeHelperSwitch(node, true, leftStart, node);
 
             this.size--;
 
@@ -138,7 +142,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
     /**
      * Traverses down the tree to find the next smallest or largest key and
      * swaps the values betweent the node to delete and the next smallest or
-     * largest key
+     * largest key.
      * @param  node      node that's currently being worked on
      * @param  firstIt   true if the first iteration of removeHelperSwitch
      *                   false otherwise
@@ -146,7 +150,9 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
      * @param  deleteMe  node that's going to be deleted from the AVLMap
      * @return           Returns the subtree following this removal
      */
-    private BNode<K, V> removeHelperSwitch(BNode<K, V> node, boolean firstIt, boolean leftStart, BNode<K, V> deleteMe) {
+    private BNode<K, V> removeHelperSwitch(BNode<K, V> node, boolean firstIt,
+        boolean leftStart, BNode<K, V> deleteMe) {
+
         boolean goLeft = (firstIt == leftStart);
         BNode<K, V> placeToGo;
         BNode<K, V> placeNextDoor;
@@ -159,7 +165,8 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         }
 
         if (!placeToGo.isLeaf()) {
-            BNode<K, V> child = removeHelperSwitch(placeToGo, false, leftStart, deleteMe);
+            BNode<K, V> child
+                = removeHelperSwitch(placeToGo, false, leftStart, deleteMe);
             
             if (goLeft) {
                 node.left = child;
@@ -177,6 +184,12 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         }
     }
 
+    /** 
+     * Returns a copy of the portion of this map whose keys are in a range.
+     *  @param fromKey the starting key of the range, inclusive if found
+     *  @param toKey the ending key of the range, inclusive if found
+     *  @return the resulting submap
+     */
     public AVLMap<K, V> subMap(K fromKey, K toKey) {
         AVLMap<K, V> tree = new AVLMap<K, V>();
         for (Map.Entry<K, V> entry : this.inOrder()) {
@@ -191,15 +204,16 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
 
     /**
-     * Function to choose and operate the proper rotation to rebalance a node
+     * Function to choose and operate the proper rotation to rebalance a node.
      * @param  node node to rotate in order to fix balace of that node
      * @return      the new root of this subtree
      */
     private BNode<K, V> rotate(BNode<K, V> node) {
         final int bf = node.balanceFactor();
+        final int negTwo = -2;
         if (node.isLeaf() || node.isBalanced()) {
             return node;
-        } else if (bf <= -2) { // right heavy
+        } else if (bf <= negTwo) { // right heavy
             final int rightBf = node.right.balanceFactor();
             if (rightBf >= 2) { // right subtree left-heavy
                 return this.doubleLR(node);
@@ -208,7 +222,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
             }
         } else { // left heavy
             final int leftBf = node.left.balanceFactor();
-            if (leftBf <= -2) { //left subtree right-heavy
+            if (leftBf <= negTwo) { //left subtree right-heavy
                 return this.doubleRL(node);
             } else { // left subtree left-heavy
                 return this.singleR(node);
@@ -362,6 +376,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
             System.out.print("}");
         }
     }
+
 
     public int getHeight() {
         return this.root.getHeight();
