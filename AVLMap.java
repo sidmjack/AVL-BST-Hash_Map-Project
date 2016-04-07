@@ -33,7 +33,7 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
 
     /**
-     * Constructor for AVLMap
+     * Constructor for AVLMap.
      */
     public AVLMap() {
         super();
@@ -82,6 +82,12 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
         return this.rotate(node);
     }
 
+    /**
+     * places node at leaf.
+     * @param currNode given.
+     * @param key given.
+     * @param val given.
+     */
     public void putLeaf(BNode<K, V> currNode, K key, V val) {
         currNode.setKey(key);
         currNode.setValue(val);
@@ -166,7 +172,8 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
         if (!placeToGo.isLeaf()) {
             BNode<K, V> child
-                = removeHelperSwitch(placeToGo, false, leftStart, deleteMe);
+                = this.removeHelperSwitch(placeToGo, 
+                        false, leftStart, deleteMe);
             
             if (goLeft) {
                 node.left = child;
@@ -232,8 +239,8 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
     /**
      * Single Right Left Rotation.
-     * @param  node.
-     * @return      node.
+     * @param  node given.
+     * @return node returned.
      */
     private BNode<K, V> singleR(BNode<K, V> node) {
         BNode<K, V> s = node;
@@ -254,8 +261,8 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
     /**
      * Single Left Rotation.
-     * @param node.
-     * @return node.
+     * @param node given.
+     * @return node return.
      */
     private BNode<K, V> singleL(BNode<K, V> node) {
         BNode<K, V> s = node;
@@ -277,8 +284,8 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
     /**
      * Double Left Right Rotation.
-     * @param node.
-     * @return node.
+     * @param node given.
+     * @return node returned.
      */
     private BNode<K, V> doubleLR(BNode<K, V> node) {
         node.left = this.singleL(node.left);
