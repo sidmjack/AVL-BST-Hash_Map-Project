@@ -235,14 +235,14 @@ return tempVal; // <- Mostly here just to appease Java.
             return node;
         } else if (bf <= -2) { // right heavy
             final int rightBf = node.right.balanceFactor();
-            if (rightBf > 0) { // right subtree left-heavy
+            if (rightBf >= 2) { // right subtree left-heavy
                 return this.doubleLR(node);
             } else { // right subtree right-heavy
                 return this.singleL(node);
             }
         } else { // left heavy
             final int leftBf = node.left.balanceFactor();
-            if (leftBf < 0) { //left subtree right-heavy
+            if (leftBf <= -2) { //left subtree right-heavy
                 return this.doubleRL(node);
             } else { // left subtree left-heavy
                 return this.singleR(node);
