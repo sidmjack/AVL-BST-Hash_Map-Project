@@ -165,7 +165,8 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
         if (!placeToGo.isLeaf()) {
             BNode<K, V> child
-                = removeHelperSwitch(placeToGo, false, leftStart, deleteMe);
+                = this.removeHelperSwitch(placeToGo, false,
+                leftStart, deleteMe);
             
             if (goLeft) {
                 node.left = child;
