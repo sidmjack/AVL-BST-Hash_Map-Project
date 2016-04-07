@@ -364,45 +364,6 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
 
     /* ---------- personal additions ---------- */
 
-    /**
-     * Traverses through the AVLMap to find the BNode with key.
-     * @param  key Key to traverse towards.
-     * @return     The node with that Key or null if not in map.
-     */
-    private BNode<K, V> traverseByKey(K key) {
-        BNode<K, V> curr = this.root;
-        while (!curr.isLeaf() && !key.equals(curr.getKey())) {
-            if (key.compareTo(curr.getKey()) > 0) {
-                curr = curr.right;
-            } else {
-                curr = curr.left;
-            }
-        }
-        return curr;
-    }
-
-    /**
-     * Print Functions.
-     */
-    public void print() {
-        this.print(this.root);
-    }
-
-    /**
-     * Prints.
-     * @param node [description].
-     */
-    public void print(BNode<K, V> node) {
-        if (node.isLeaf()) {
-            return;
-        } else {
-            System.out.print("{");
-            this.print(node.left);
-            System.out.print(node);
-            this.print(node.right);
-            System.out.print("}");
-        }
-    }
 
     /**
      *  Gets Height.
@@ -418,15 +379,6 @@ public class AVLMap<K extends Comparable<? super K>, V> extends BSTMap<K, V> {
      */
     public int getBalance() {
         return this.root.balanceFactor();
-    }
-
-    /**
-     * Gets Balanve.
-     * @param  node .
-     * @return      integer.
-     */
-    public int getBalance(BNode<K, V> node) {
-        return node.balanceFactor();
     }
 
 
