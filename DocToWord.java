@@ -32,45 +32,44 @@ public class DocToWord {
 
     static void lineToWords(String line) {
 
-	char c[] = line.toCharArray();
-	int i = 0;
-	boolean inword = false;
-	int first =0;
-	int last = 0;
+		char c[] = line.toCharArray();
+		int i = 0;
+		boolean inword = false;
+		int first =0;
+		int last = 0;
 
 
-	while (i < c.length) {
+		while (i < c.length) {
 
-	// When a word is detected, find the end of it and print it
+		// When a word is detected, find the end of it and print it
 
-	    if (filterChar(c[i]) == c[i]) {
-		if (!inword) {
-		    inword = true;
-		    first = i;
-		    last = i;
+		    if (filterChar(c[i]) == c[i]) {
+				if (!inword) {
+				    inword = true;
+				    first = i;
+				    last = i;
+				}
+			else
+			    last++;
+		    }
+
+		    // If white space is found, spit out the word and skip over the white space
+
+		    else {
+				if (inword) {
+				    System.out.println(line.substring(first,last+1));
+				    inword = false;
+				}
+		    }
+
+		    i++;
 		}
-		else
-		    last++;
-	    }
 
-	    // If white space is found, spit out the word and skip over the white space
-
-	    else {
+		// push out the last word 
 
 		if (inword) {
 		    System.out.println(line.substring(first,last+1));
-		    inword = false;
-		}
-	    }
-
-	    i++;
-	}
-
-	// push out the last word 
-
-	if (inword) {
-	    System.out.println(line.substring(first,last+1));
-	}	    
+		}	    
     }
 	
 
