@@ -83,6 +83,27 @@ All in all, it works. It's probably a bit unconvential, but takes
 Improvements:
 Seems fine. More comments wouldn't hurt.
 
+
+Part 3:
+
+Accept words separated by nondetermined amount of whitespace
+
+instantiate a map:
+	Java HashMap
+	BSTMap
+	AVLMap
+of:
+	<String inputWord, int numberOfOccurrences>
+
+if word is already there, incrememnt count
+else, add with count of one
+
+
+then make a reverse AVLMap as follows
+
+	AVLMap<int numberOfOccurrences, Collection<String> inputWords>
+
+
 **********************************************************************************
 
 COMMENTS TO SELF:
