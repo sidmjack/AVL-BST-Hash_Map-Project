@@ -13,7 +13,7 @@ public class P3C2 extends P3C {
 
 
 
-    final static int[] SIZES = {100, 1000, 10000};
+    static final int[] SIZES = {100, 1000, 10000};
 
 
     // static String printIntro(int i) {
