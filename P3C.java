@@ -37,6 +37,10 @@ public class P3C {
         this.uniqueWordCount = 0;
     }
 
+    /**
+     * Sets the internal map.
+     * @param map map to set to the internal one
+     */
     protected void giveMapType(MapJHU<String, Integer> map) {
         this.mp = map;
     }
