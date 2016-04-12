@@ -699,4 +699,23 @@ public class BSTMap<K extends Comparable<? super K>, V>
         this.modCounter++;
     }
 
+
+    /** 
+     * Get the smallest key in the BSTMap.
+     *  @return the max key
+     */
+    public K lastKey() {
+        return this.lastKey(this.root);
+    }
+
+    /** 
+     * Get the smallest key in a the BSTMap.
+     *  @return the min key
+     */
+    public K firstKey() {
+        return this.firstKey(this.root);
+    }
+
+
+
 }
