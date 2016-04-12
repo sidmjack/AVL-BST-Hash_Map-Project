@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
 import java.util.Collection;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class P3C {
      /** Keeps track of maximum word count. */
     protected int maxWordCount;
      /** Entires used to associate an occurence number with a set of words. */
-    protected AVLMap<Integer, Collection<String>> avl;
+    protected JavaTreeMapWrapper<Integer, Collection<String>> avl;
 
     /**
      * Constructor that sets up starting fields of P3C.
@@ -64,6 +65,7 @@ public class P3C {
      *                  maxWords was able to be read
      */
     public boolean countOccurrences(int maxWords) {
+        this.mp.clear();
         for (String word : this.wordList) {
 
             Integer howMany = this.mp.get(word);
@@ -89,7 +91,10 @@ public class P3C {
      */
     public void reverseMap() {
 
-        this.avl = new AVLMap<Integer, Collection<String>>();
+    this.uniqueWordCount = 0;
+    this.maxWordCount = 0;
+
+        this.avl = new JavaTreeMapWrapper<Integer, Collection<String>>();
 
         for (Map.Entry<String, Integer> entry : this.mp.entries()) {
 
@@ -154,8 +159,9 @@ public class P3C {
             ninetyPercent++;
         }
 
-        AVLMap<Integer, Collection<String>> topFreqMap
-            = this.avl.subMap(ninetyPercent, this.maxWordCount);
+        Set<Map.Entry<Integer, Collection<String>>> topFreqMap
+            = this.avl.subMap(ninetyPercent, this.maxWordCount + 1).entrySet();
+        //since exclusive
 
 
         Collection<String> topFreqCollection = new HashSet<String>();
