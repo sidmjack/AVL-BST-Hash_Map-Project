@@ -127,19 +127,32 @@ public class BSTMap<K extends Comparable<? super K>, V>
             this.height = 0;
         }
 
+        /**
+         * gives the height of the BNode.
+         * @return height
+         */
         public int getHeight() {
             return this.height;
         }
 
+        /**
+         * Updates the height of the BNode relative to the child nodes.
+         * @return the height of the node
+         */
         public int updateHeight() {
             if (this.isLeaf()) {
                 this.height = 0;
             } else {
-                this.height = Math.max(this.left.getHeight(), this.right.getHeight()) + 1;
+                this.height = Math.max(
+                    this.left.getHeight(), this.right.getHeight()) + 1;
             }
             return this.height;
         }
 
+        /**
+         * Returns the balance factor for the node.
+         * @return balance factor, or 0 if leaf.
+         */
         public int balanceFactor() {
             if (this.isLeaf()) {
                 return 0;
@@ -148,6 +161,10 @@ public class BSTMap<K extends Comparable<? super K>, V>
             }
         }
 
+        /**
+         * Determines if Node is balances.
+         * @return true if balance factor is between -1 and 1 inclusive
+         */
         public boolean isBalanced() {
             int bf = this.balanceFactor();
             return -1 <= bf && bf <= 1;
