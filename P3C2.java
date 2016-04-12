@@ -51,11 +51,11 @@ public class P3C2 extends P3C {
 
                 if (j == 0) {
                     part3.giveMapType(
-                        new JavaHashSetWrapper<String, Integer>());
+                        new JavaHashMapWrapper<String, Integer>());
                 } else if (j == 1) {
                     part3.giveMapType(new BSTMap<String, Integer>());
                 } else {
-                    part3.giveMapType(new AVLMap<String, Integer>());
+                    part3.giveMapType(new JavaTreeMapWrapper<String, Integer>());
                 }
 
                 part3.countOccurrences(SIZES[i]);
@@ -63,16 +63,16 @@ public class P3C2 extends P3C {
 
                 long lEndTime = System.currentTimeMillis();
                 long difference = lEndTime - lStartTime;
-                System.out.println("Elapsed milliseconds: " + difference);
+                // System.out.println("Elapsed milliseconds: " + difference);
 
 
                 String implementation;
-                if (i == 0) {
-                    implementation = "Java HashSet";
-                } else if (i == 1) {
+                if (j == 0) {
+                    implementation = "Java HashMap";
+                } else if (j == 1) {
                     implementation = "BSTMap";
                 } else {
-                    implementation = "AVLMap";
+                    implementation = "Java TreeMap";
                 }
 
                 System.out.println("" + SIZES[i] + "word - " + implementation
