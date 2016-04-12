@@ -12,6 +12,7 @@ public class P3C1 extends P3C {
     public static void main(String[] args) {
         P3C1 part3 = new P3C1();
         part3.readInWords();
+        part3.giveMapType(new JavaHashSetWrapper<String, Integer>());
         part3.countOccurrences(-1);
         part3.reverseMap();
         int wordCount = part3.totalNumWords();
