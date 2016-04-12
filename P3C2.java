@@ -7,12 +7,12 @@
 
 
 /**
- * Part 2 of "Fun With Maps" Prject (Project 3C.2)
+ * Part 2 of "Fun With Maps" Prject (Project 3C.2).
  */
 public class P3C2 extends P3C {
 
 
-
+    /** Contains word sizes to be tested. */
     static final int[] SIZES = {100, 1000, 10000};
 
 
@@ -33,16 +33,14 @@ public class P3C2 extends P3C {
       * Creates 1) hashmap,  2) a BSTMap, and 3) an AVLMap. 
       * This program outputs word count data while comparing the performance 
       * data computation between the 3 different data structures listed above.
-      * @param args[] Word File.
+      * @param  args arguments from main.
       */
-      public static void main(String args[]) {
+    public static void main(String[] args) {
 
         MapJHU<String, Integer> mp;
         P3C2 part3 = new P3C2();
 
-
         part3.readInWords();
-
 
         // loop varying size of the input
         for (int i = 0; i <= 2; i++) {
@@ -79,12 +77,7 @@ public class P3C2 extends P3C {
 
                 System.out.println("" + SIZES[i] + "word - " + implementation
                     + "performance time: " + difference);
-
-
-
             }
-
         }
-
-      }
+    }
 }
