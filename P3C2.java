@@ -50,7 +50,8 @@ public class P3C2 extends P3C {
                 long lStartTime = System.currentTimeMillis();
 
                 if (j == 0) {
-                    part3.giveMapType(new JavaHashSetWrapper<String, Integer>());
+                    part3.giveMapType(
+                        new JavaHashSetWrapper<String, Integer>());
                 } else if (j == 1) {
                     part3.giveMapType(new BSTMap<String, Integer>());
                 } else {
