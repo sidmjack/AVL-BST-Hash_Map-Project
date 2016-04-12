@@ -75,8 +75,8 @@ public class P3C2 extends P3C {
                     implementation = "Java TreeMap";
                 }
 
-                System.out.println("" + SIZES[i] + "word - " + implementation
-                    + "performance time: " + difference);
+                System.out.println("" + SIZES[i] + "-word - " + implementation
+                    + " performance time: " + difference);
             }
         }
     }
