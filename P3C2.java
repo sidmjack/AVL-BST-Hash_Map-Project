@@ -37,7 +37,6 @@ public class P3C2 extends P3C {
       */
       public static void main(String args[]) {
 
-        MapJHU<String, Integer> mp;
         P3C2 part3 = new P3C2();
 
 
@@ -53,11 +52,11 @@ public class P3C2 extends P3C {
                 long lStartTime = System.currentTimeMillis();
 
                 if (j == 0) {
-                    mp = new JavaHashSetWrapper<String, Integer>();
+                    part3.giveMapType(new JavaHashSetWrapper<String, Integer>());
                 } else if (j == 1) {
-                    mp = new BSTMap<String, Integer>();
+                    part3.giveMapType(new BSTMap<String, Integer>());
                 } else {
-                    mp = new AVLMap<String, Integer>();
+                    part3.giveMapType(new AVLMap<String, Integer>());
                 }
 
                 part3.countOccurrences(SIZES[i]);
