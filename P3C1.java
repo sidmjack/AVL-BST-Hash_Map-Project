@@ -1,8 +1,14 @@
 import java.util.Collection;
 
+/**
+ * Outputs data relevant to the collection of words taken from standard in.
+ */
 public class P3C1 extends P3C {
     
-
+    /**
+     * Applies P3C methods to print data relevent to the stdin words collected.
+     * @param args [description]
+     */
     public static void main(String[] args) {
         P3C1 part3 = new P3C1();
         part3.readInWords();
