@@ -32,7 +32,7 @@ public class P3C {
      */
     public P3C() {
         this.maxWordCount = 0;
-        this.sc = new Scanner(System.in);
+        this.sc = new Scanner(System.in);   
         this.wordList = new ArrayList<String>();
         this.wordCount = 0;
         this.uniqueWordCount = 0;
@@ -91,8 +91,8 @@ public class P3C {
      */
     public void reverseMap() {
 
-    this.uniqueWordCount = 0;
-    this.maxWordCount = 0;
+        this.uniqueWordCount = 0;
+        this.maxWordCount = 0;
 
         this.avl = new JavaTreeMapWrapper<Integer, Collection<String>>();
 
