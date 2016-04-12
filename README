@@ -1,9 +1,9 @@
 Name: Lawrence Wolf-Sonkin & Sidney Jackson
 JHU Login: lwolfso1  & sjacks85
 Course: Data Structure (600.226.02)
-Project: Project #3A (Basic BST Implementation)
-Due Date: 04-4-2016
-Last Modified: 04-4-2016
+Project: Project #3C (FUN WITH MAPS)
+Due Date: 04-11-2016
+Last Modified: 04-11-2016
 README FILE:
 
 ******************************************************************************
@@ -86,6 +86,26 @@ Seems fine. More comments wouldn't hurt.
 
 Part 3:
 
+Summary:
+Wasn't difficult to implement.
+No complaints or anything that standsout to note. 
+We did, however, create a P3C Class that contains all
+of the functions needed for P3C1/2 to clean up the code. 
+
+Complications:
+Though our AVL Map proved to do well when we checked it
+against JUNIT, we encountered null pointer errors when
+using it in our P3C program. We weren't sure of where the
+error was coming from, so instead of trying to correct
+our version of the AVL map, we used Java's Tree Map 
+Implementation. This was a suggestion made by Joanne in Piazza in
+the extension post in the event we encountered errors in AVL,
+stating that "[we could] use the Java TreeMap implementation as a
+substitute as stated on the assignment". This, however, wasn't
+mentioned in the assignment, so (to be safe), wanted to be sure 
+that it was understood that this was accpetable. 
+
+Notes:
 Accept words separated by nondetermined amount of whitespace
 
 instantiate a map:
