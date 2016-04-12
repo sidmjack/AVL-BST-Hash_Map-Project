@@ -2,6 +2,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Wrapper for Java HashMap.
+ * @param <K> Key.
+ * @param <V> Value.
+ */
 public class JavaHashMapWrapper<K, V> extends HashMap<K, V>
     implements MapJHU<K, V> {
 
