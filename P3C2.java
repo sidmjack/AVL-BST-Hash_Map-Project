@@ -5,75 +5,86 @@
 // Due Date: 04-11-2016
 // Last Modified: 04-11-2016
 
-import java.util.Scanner;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.io.FileNotFoundException;
-import java.util.EmptyStackException;
 
 /**
  * Part 2 of "Fun With Maps" Prject (Project 3C.2)
  */
-public class P3C2 {
-	 
-	final int SIZE1 = 100;
-	final int SIZE2 = 1000;
-	final int SIZE3 = 10000;
-
-	 /**
-	  * Creates 1) hashmap,  2) a BSTMap, and 3) an AVLMap. 
-	  * This program outputs word count data while comparing the performance 
-	  * data computation between the 3 different data structures listed above.
-	  * @param args[] Word File.
-	  */
-	  public static void main(String args[]){
-
-	  	//Variables.
-	  	List wordList = new ArrayList();
-	  	int wordCount = 0;
-	  	
-	  	//Create reference list of total words.
-	  	Scanner sc;
-        do {           
-            sc = new Scanner(System.in);
-            word = sc.next();
-            wordList.add(word);
-            wordCount++;
-        } while (sc.hasNext());
-
-        int currCount = 0;
-       
+public class P3C2 extends P3C {
 
 
-	  	//Time the amount of time it takes to create the map (for each data structure).
-	  	//There will be 3 Sets of Instantiaions for each data structure...
-	  	// An instantion for 100, 1000, and 10,000 words.
-	  	
-	  	// Timing Code:
-		// long lStartTime = System.currentTimeMillis();
-		// WHATEVER TASK
-		// long lEndTime = System.currentTimeMillis();
-		// long difference = lEndTime - lStartTime;
-		// System.out.println("Elapsed milliseconds: " + difference);
 
-        // Arrays for storing time.
-        long[] performacneTime = new long[]{0,0,0};
+    final static int[] SIZES = {100, 1000, 10000};
 
-	  	//BELOW WILL BECOME A FUNCTION:
-	    System.out.println("100 Word Map Insatiation: " + hmTime[0]);
-	  	System.out.println("1,000 Word Map Insatiation: " + hmTime[1]);
-	  	System.out.println("100,000 Word Map Insatiation: " + hmTime[2]);
 
-	  	System.out.println("--HASH MAP--");
-	  	System.out.println("Performance Time: ");
+    // static String printIntro(int i) {
+    //     String implementation;
+    //     if (i == 0) {
+    //         implementation = "Java HashSet";
+    //     } else if (i == 1) {
+    //         implementation = "BSTMap";
+    //     } else {
+    //         implementation = "AVLMap";
+    //     }
 
-	  	System.out.println("--BST MAP--");
-	  	System.out.println("Performance Time: ");
+    // }
 
-	    System.out.println("--AVL MAP--");
-	  	System.out.println("Performance Time: ");
 
-	  }
+     /**
+      * Creates 1) hashmap,  2) a BSTMap, and 3) an AVLMap. 
+      * This program outputs word count data while comparing the performance 
+      * data computation between the 3 different data structures listed above.
+      * @param args[] Word File.
+      */
+      public static void main(String args[]) {
+
+        MapJHU<String, Integer> mp;
+        P3C2 part3 = new P3C2();
+
+
+        part3.readInWords();
+
+
+        // loop varying size of the input
+        for (int i = 0; i <= 2; i++) {
+
+            // loop varying DS implementation
+            for (int j = 0; j <= 2; j++) {
+
+                long lStartTime = System.currentTimeMillis();
+
+                if (j == 0) {
+                    mp = new JavaHashSetWrapper<String, Integer>();
+                } else if (j == 1) {
+                    mp = new BSTMap<String, Integer>();
+                } else {
+                    mp = new AVLMap<String, Integer>();
+                }
+
+                part3.countOccurrences(SIZES[i]);
+
+
+                long lEndTime = System.currentTimeMillis();
+                long difference = lEndTime - lStartTime;
+                System.out.println("Elapsed milliseconds: " + difference);
+
+
+                String implementation;
+                if (i == 0) {
+                    implementation = "Java HashSet";
+                } else if (i == 1) {
+                    implementation = "BSTMap";
+                } else {
+                    implementation = "AVLMap";
+                }
+
+                System.out.println("" + SIZES[i] + "word - " + implementation
+                    + "performance time: " + difference);
+
+
+
+            }
+
+        }
+
+      }
 }
