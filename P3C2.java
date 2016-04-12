@@ -55,7 +55,8 @@ public class P3C2 extends P3C {
                 } else if (j == 1) {
                     part3.giveMapType(new BSTMap<String, Integer>());
                 } else {
-                    part3.giveMapType(new JavaTreeMapWrapper<String, Integer>());
+                    part3.giveMapType(
+                        new JavaTreeMapWrapper<String, Integer>());
                 }
 
                 part3.countOccurrences(SIZES[i]);
