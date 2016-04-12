@@ -2,6 +2,11 @@ import java.util.TreeMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Wrapper for Java TreeMap.
+ * @param <K> Key.
+ * @param <V> Value.
+ */
 public class JavaTreeMapWrapper<K, V> extends TreeMap<K, V>
     implements MapJHU<K, V> {
 
