@@ -5,22 +5,30 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Collection;
 import java.util.Map;
-import java.util.AbstractMap;
 
-
+/**
+ * Class containing all relevant variables/functions for P3C1/2.
+ */
 public class P3C {
     
-
+    /** Scanner that reads in standard input. */
     protected Scanner sc;
-
+    /** Contains list of words from standard in. */
     protected List<String> wordList;
+    /** Keeps track of the number of unique words. */
     protected int uniqueWordCount;
+    /** Keeps track of the number of all words. */
     protected int wordCount;
+     /** Entries used to associate a word with it's frequency. */
     protected MapJHU<String, Integer> mp;
+     /** Keeps track of maximum word count. */
     protected int maxWordCount;
+     /** Entires used to associate an occurence number with a set of words. */
     protected AVLMap<Integer, Collection<String>> avl;
 
-
+    /**
+     * Constructor that sets up starting fields of P3C.
+     */
     public P3C() {
         this.maxWordCount = 0;
         this.sc = new Scanner(System.in);
@@ -29,13 +37,15 @@ public class P3C {
         this.uniqueWordCount = 0;
     }
 
-
+    /**
+     * Read in all words from standard in into an array list.
+     */
     public void readInWords() {
 
         //Create reference list of total words
         while (this.sc.hasNext()) {
-            wordList.add(this.sc.next());
-            wordCount++;
+            this.wordList.add(this.sc.next());
+            this.wordCount++;
         }
     }
 
@@ -66,6 +76,9 @@ public class P3C {
         return maxWords > 0;
     }
 
+    /**
+     * Creates "inverse map", using the number of occurences as keys to words.
+     */
     public void reverseMap() {
 
         this.avl = new AVLMap<Integer, Collection<String>>();
@@ -92,15 +105,27 @@ public class P3C {
         }
     }
 
+    /**
+     * Simply returns the total number of words.
+     * @return total number of words.
+     */
     public int totalNumWords() {
         return this.wordCount;
     }
 
+    /**
+     * Returns a set of the most frequently encountered words.
+     * @return a set of most frequent word(s).
+     */
     public Collection<String> mostFrequentWords() {
         Integer maxFreq = this.avl.lastKey();
         return this.avl.get(maxFreq);
     }
 
+    /**
+     * Returns a set of "unique" words appearing ni more than three times.
+     * @return s set of unique words.
+     */
     public Collection<String> freqLessThanThree() {
         Collection<String> lt3 = this.avl.get(1);
         lt3.addAll(this.avl.get(2));
@@ -109,9 +134,15 @@ public class P3C {
         return lt3;
     }
 
+    /**
+     * Returns a set of words whose frequency ranged in the top 10% of words.
+     * @return 10% of most frequently occuring words.
+     */
     public Collection<String> topTenPercentWords() {
-        int ninetyPercent = this.maxWordCount * 9 / 10;
-        if (this.maxWordCount * 9 % 10 != 0) {
+        final int nine = 9;
+        final int ten = 10;
+        int ninetyPercent = this.maxWordCount * nine / ten;
+        if (this.maxWordCount * nine % ten != 0) {
             ninetyPercent++;
         }
 
@@ -121,7 +152,7 @@ public class P3C {
 
         Collection<String> topFreqCollection = new HashSet<String>();
 
-        for (Map.Entry<Integer, Collection<String>> entry : topFreqMap ) {
+        for (Map.Entry<Integer, Collection<String>> entry : topFreqMap) {
             topFreqCollection.addAll(entry.getValue());
         }
 
