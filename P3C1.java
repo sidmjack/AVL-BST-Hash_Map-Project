@@ -23,7 +23,7 @@ public class P3C1 extends P3C {
         System.out.println("Total number of words: " + wordCount);
         System.out.println("Most frequent word(s): " + mostFreqWords);
         System.out.println("All words occurring at most 3 times: "
-            + mostFreqWords);
+            + less3Times);
 
         System.out.println(
             "All words occurring int top 10% of word frequencies: "
