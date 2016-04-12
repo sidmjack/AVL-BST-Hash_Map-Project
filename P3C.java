@@ -37,6 +37,10 @@ public class P3C {
         this.uniqueWordCount = 0;
     }
 
+    protected void giveMapType(MapJHU<String, Integer> map) {
+        this.mp = map;
+    }
+
     /**
      * Read in all words from standard in into an array list.
      */
